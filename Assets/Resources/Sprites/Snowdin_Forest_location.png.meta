@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Snowdin_Forest_location_0: -4184618854948288231
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
