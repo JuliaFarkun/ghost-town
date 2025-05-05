@@ -23,9 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55de6085-94cc-4c2d-972f-34b496e58346" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/heroScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/heroScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters/LightingData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/girlScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/girlScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +109,7 @@
       <workItem from="1744462213442" duration="1101000" />
       <workItem from="1745822298184" duration="2160000" />
       <workItem from="1745945027137" duration="1321000" />
+      <workItem from="1746433837996" duration="1403000" />
     </task>
     <servers />
   </component>

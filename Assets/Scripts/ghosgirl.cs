@@ -4,13 +4,8 @@ public class GirlMovement : MonoBehaviour
 {
     [Header("Движение")]
     public float moveSpeed = 5f;
-    
-    [Header("Эффект парения")]
-    public float floatAmplitude = 0.2f;
-    public float floatFrequency = 1.5f;
 
     private SpriteRenderer spriteRenderer;
-    private Vector3 originalScale;
 
     void Start()
     {
@@ -19,32 +14,16 @@ public class GirlMovement : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer не найден на объекте!");
         }
-
-        originalScale = transform.localScale;
     }
 
     void Update()
     {
-        // Получаем ввод
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = 0;
+        if (Input.GetKey(KeyCode.LeftArrow)) horizontalInput = -1;
+        if (Input.GetKey(KeyCode.RightArrow)) horizontalInput = 1;
 
-        // Создаем вектор движения
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        
-        // Нормализуем направление и создаем движение
-        if (direction.magnitude > 0)
-        {
-            direction.Normalize();
-            Vector3 movement = direction * (moveSpeed * Time.deltaTime);
-            transform.position += movement;
-        }
-
-        // Эффект парения
-        float floatingOffset = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
-        Vector3 currentPos = transform.position;
-        currentPos.y += floatingOffset;
-        transform.position = currentPos;
+        float newX = transform.position.x + horizontalInput * moveSpeed * Time.deltaTime;
+        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 
         // Поворот спрайта
         if (horizontalInput != 0)
