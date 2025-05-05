@@ -2,30 +2,33 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-namespace Sprites
+public class MainMenuController : MonoBehaviour
 {
-    public class MainMenuController : MonoBehaviour
+    [SerializeField] private LoadingController sceneLoader; // Ссылка на SceneLoader
+
+    private void Start()
     {
-        [SerializeField] private Button startButton;
-        [SerializeField] private Button quitButton;
+        // Находим кнопки через Inspector (лучше использовать SerializeField)
+        Button startButton = GameObject.Find("StartButton").GetComponent<Button>();
+        Button quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
 
-        private void Awake()
+        startButton.onClick.AddListener(StartGame);
+        quitButton.onClick.AddListener(QuitGame);
+
+        // Проверка наличия SceneLoader
+        if (sceneLoader == null)
         {
-            startButton = GameObject.Find("StartButton").GetComponent<Button>();
-            quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
-
-            startButton.onClick.AddListener(StartGame);
-            quitButton.onClick.AddListener(QuitGame);
+            Debug.LogError("SceneLoader не привязан к MainMenuController!");
         }
+    }
 
-        private void StartGame()
-        {
-            GetComponent<SceneLoader>().LoadScene("GameScene"); 
-        }
+    private void StartGame()
+    {
+        sceneLoader.LoadScene("GameScene"); // Используем явную ссылку
+    }
 
-        private void QuitGame()
-        {
-            Application.Quit();
-        }
+    private void QuitGame()
+    {
+        Application.Quit();
     }
 }

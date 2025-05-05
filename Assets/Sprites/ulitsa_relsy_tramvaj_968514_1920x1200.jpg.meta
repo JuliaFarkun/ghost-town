@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ulitsa_relsy_tramvaj_968514_1920x1200_0: -4096717262052662258
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
