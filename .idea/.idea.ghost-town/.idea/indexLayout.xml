@@ -15,6 +15,7 @@
       <Path>Temp</Path>
       <Path>UserSettings</Path>
       <Path>obj</Path>
+      <Path>wolf</Path>
     </explicitExcludes>
   </component>
   <component name="UserContentModel">
