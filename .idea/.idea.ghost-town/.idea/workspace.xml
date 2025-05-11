@@ -23,11 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55de6085-94cc-4c2d-972f-34b496e58346" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Scene/characters/LightingData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/girlScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/girlScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/Priest.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/Priest.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/attack.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/hurt.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/hurt.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/idle.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/idle.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/victory.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/victory.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/Priest.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/Priest.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/wolf.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/wolf.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/wolf.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/wolf.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +52,7 @@
         <option value="$PROJECT_DIR$/Assets/Tiny RPG Forest/Artwork/sprites/hero/walk/hero-walk-back/herowalk.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/herowalk.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" />
       </list>
     </option>
   </component>
@@ -110,6 +117,10 @@
       <workItem from="1745822298184" duration="2160000" />
       <workItem from="1745945027137" duration="1321000" />
       <workItem from="1746433837996" duration="1403000" />
+      <workItem from="1746902536262" duration="2000" />
+      <workItem from="1746902574024" duration="2070000" />
+      <workItem from="1746954889527" duration="1062000" />
+      <workItem from="1746969301153" duration="624000" />
     </task>
     <servers />
   </component>

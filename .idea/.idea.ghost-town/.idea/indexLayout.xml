@@ -14,6 +14,7 @@
       <Path>Logs</Path>
       <Path>Temp</Path>
       <Path>UserSettings</Path>
+      <Path>nRZNJr.png</Path>
       <Path>obj</Path>
       <Path>wolf</Path>
     </explicitExcludes>
