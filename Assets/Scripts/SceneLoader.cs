@@ -1,74 +1,54 @@
-// LoadingController.cs
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement; // Важно для управления сценами
 
-public class LoadingController : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] private Slider progressBar;
-
-    void Start()
+    // Метод для загрузки главной игровой сцены
+    public void LoadGameScene()
     {
-        Debug.Log("--- LoadingController: Start() ---"); // <-- Лог начала
+        SceneManager.LoadScene("GameScene"); // Убедись, что имя сцены совпадает
+    }
 
-        string targetSceneName = PlayerPrefs.GetString("NextSceneToLoad", "GameScene_DEFAULT"); // Используем другое значение по умолчанию для отладки
-        Debug.Log($"Целевая сцена из PlayerPrefs: {targetSceneName}"); // <-- Лог имени сцены
+    // Метод для загрузки сцены главного меню
+    public void LoadMainMenuScene()
+    {
+        SceneManager.LoadScene("MainMenu"); // Убедись, что имя сцены совпадает
+    }
 
-        if (string.IsNullOrEmpty(targetSceneName) || targetSceneName == "GameScene_DEFAULT")
+    // Метод для загрузки сцены настроек
+    public void LoadSettingsScene()
+    {
+        SceneManager.LoadScene("SettingsScene"); // Убедись, что имя сцены совпадает
+    }
+
+    // Метод для выхода из игры
+    public void QuitGame()
+    {
+        Debug.Log("Quitting game..."); // Для проверки в редакторе
+        Application.Quit();
+    }
+
+    // --- Для будущего использования сценой настроек ---
+    private static string previousSceneName;
+
+    public static void LoadSettingsAndRemember()
+    {
+        previousSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene("SettingsScene");
+    }
+
+    public void ReturnToPreviousScene()
+    {
+        if (!string.IsNullOrEmpty(previousSceneName))
         {
-            Debug.LogError("Не удалось получить корректное имя целевой сцены из PlayerPrefs!");
-            return;
-        }
-
-        // УКАЖИТЕ ЗДЕСЬ ПРАВИЛЬНЫЙ ПУТЬ К ПАПКЕ СО СЦЕНАМИ!
-        string scenePath = "Assets/Scenes/" + targetSceneName + ".unity"; // <-- Пример пути, исправьте если нужно!
-        Debug.Log($"Проверяем путь к сцене: {scenePath}"); // <-- Лог пути
-
-        if (SceneUtility.GetBuildIndexByScenePath(scenePath) < 0)
-        {
-             Debug.LogError($"Сцена '{targetSceneName}' по пути '{scenePath}' НЕ НАЙДЕНА в Build Settings!");
-             return; // <-- Выход, если сцена не найдена
+            SceneManager.LoadScene(previousSceneName);
         }
         else
         {
-             Debug.Log($"Сцена '{targetSceneName}' найдена в Build Settings.");
+            // Если по какой-то причине предыдущая сцена не запомнилась,
+            // возвращаемся в главное меню как запасной вариант
+            LoadMainMenuScene();
         }
-
-        Debug.Log($"Запускаем корутину LoadTargetSceneAsync для сцены: {targetSceneName}");
-        StartCoroutine(LoadTargetSceneAsync(targetSceneName));
     }
-
-    private IEnumerator LoadTargetSceneAsync(string targetSceneName)
-    {
-        Debug.Log("--- Корутина LoadTargetSceneAsync: Начало ---");
-        yield return new WaitForSeconds(0.5f); // Небольшая пауза
-
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName);
-
-        if (asyncLoad == null)
-        {
-            Debug.LogError($"SceneManager.LoadSceneAsync не смог начать загрузку сцены {targetSceneName}!");
-            yield break; // Выходим из корутины
-        }
-
-        Debug.Log("Асинхронная загрузка начата. Входим в цикл ожидания.");
-        // asyncLoad.allowSceneActivation = false; // Пока не используем для простоты
-
-        while (!asyncLoad.isDone)
-        {
-            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-            // Логируем прогресс реже, чтобы не засорять консоль
-            if (Time.frameCount % 30 == 0) // Лог каждые 30 кадров примерно
-               Debug.Log($"Прогресс загрузки ({targetSceneName}): {asyncLoad.progress * 100f}% (Отображаемый: {progress * 100f}%)");
-
-            if (progressBar != null)
-                progressBar.value = progress;
-
-            yield return null;
-        }
-
-         // Этот лог появится, когда asyncLoad.isDone станет true
-        Debug.Log($"--- Корутина LoadTargetSceneAsync: Цикл завершен. Сцена {targetSceneName} загружена и должна быть активна. ---");
-    }
+    // -----------------------------------------------------
 }
