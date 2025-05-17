@@ -344,6 +344,7 @@ GameObject:
   - component: {fileID: 66701129}
   - component: {fileID: 66701131}
   - component: {fileID: 66701130}
+  - component: {fileID: 66701132}
   m_Layer: 5
   m_Name: NoteImageDisplay
   m_TagString: Untagged
@@ -365,10 +366,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 659861494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &66701130
 MonoBehaviour:
@@ -390,7 +391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7389249988482428342, guid: ef8ce37432cc62e48a5ebdc9cd64f6c1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -408,6 +409,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66701128}
   m_CullTransparentMesh: 1
+--- !u!114 &66701132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66701128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,7 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0567a37da76a7e4d97bf8df1a1c0008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  notePanel: {fileID: 1589697631}
+  notePanel: {fileID: 659861493}
   noteImageComponent: {fileID: 66701130}
   closeButton: {fileID: 2111284690}
 --- !u!1 &997976788
@@ -1903,7 +1918,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.0001, y: 0.0001}
+  m_Size: {x: 7, y: 7}
   m_EdgeRadius: 0
 --- !u!212 &1589697633
 SpriteRenderer:
@@ -1970,7 +1985,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.171, y: 0.077, z: -0.059706256}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1987,7 +2002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d8babb7c57b6a4c83195e8c946c4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteImageToShow: {fileID: 3653629756354161261, guid: 9a7dfab206103994cbd948756ab5201f, type: 3}
+  noteImageToShow: {fileID: 5002891705506836000, guid: ef8ce37432cc62e48a5ebdc9cd64f6c1, type: 3}
   noteDisplay: {fileID: 912535121}
 --- !u!1 &1816065213
 GameObject:
