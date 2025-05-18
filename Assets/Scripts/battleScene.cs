@@ -1,22 +1,36 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 
-public class BattleSceneController : MonoBehaviour
+public class DynamicBattleSceneController : MonoBehaviour
 {
     public Animator priestAnimator;
-    public Animator wolfAnimator;
     public Transform priestTransform;
-    public Transform wolfTransform;
-
-    public List<GameObject> keyObjects; // Перетащите сюда ваши объекты-клавиши в нужном порядке
-    public List<KeyCode> keysToPress = new List<KeyCode> { KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F };
-
+    
+    [Header("Wolf Settings")]
+    public List<GameObject> wolfPrefabs; // Префабы разных волков
+    public Transform wolfSpawnPoint;
+    private Animator wolfAnimator;
+    private GameObject currentWolf;
+    
+    [Header("Key Settings")]
+    public GameObject keyPrefab; // Префаб кнопки
+    public Transform keysParent; // Родитель для кнопок
+    public List<KeyCode> possibleKeys = new List<KeyCode> 
+    { 
+        KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F, 
+        KeyCode.J, KeyCode.K, KeyCode.L, KeyCode.W 
+    };
+    public int minKeys = 3;
+    public int maxKeys = 8;
+    
+    [Header("UI Settings")]
     public TMP_Text resultText;
-
     public Vector3 priestStartPosition;
-    public Vector3 wolfStartPosition;
-
+    
+    private List<KeyCode> keysToPress = new List<KeyCode>();
+    private List<GameObject> keyObjects = new List<GameObject>();
     private int currentKeyIndex = 0;
     private int correctCount = 0;
     private int wrongCount = 0;
@@ -24,18 +38,92 @@ public class BattleSceneController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Animator assigned: " + (priestAnimator != null));
-        Debug.Log("Has controller: " + (priestAnimator.runtimeAnimatorController != null));
-        priestAnimator.Play("idle");
-        wolfAnimator.Play("walk"); // Волк по умолчанию бежит на месте
-        resultText.text = "";
-        priestTransform.localScale = new Vector3(-1, 1, 1); // Герой всегда зеркален
-        wolfTransform.localScale = new Vector3(1, 1, 1);    // Волк всегда зеркален
-        HighlightCurrentKey();
+        InitializeBattle();
+    }
 
-        // Сохраняем стартовые позиции (можно задать в инспекторе или здесь)
+    void InitializeBattle()
+    {
+        // Создаем случайного волка
+        SpawnRandomWolf();
+        
+        // Генерируем последовательность кнопок
+        GenerateKeySequence();
+        
+        // Создаем визуальные кнопки
+        CreateKeyButtons();
+        
+        // Настраиваем начальные параметры
+        priestAnimator.Play("idle");
+        wolfAnimator.Play("walk");
+        resultText.text = "";
+        priestTransform.localScale = new Vector3(-1, 1, 1);
         priestTransform.position = priestStartPosition;
-        wolfTransform.position = wolfStartPosition;
+        
+        HighlightCurrentKey();
+    }
+
+    void SpawnRandomWolf()
+    {
+        if (wolfPrefabs.Count == 0)
+        {
+            Debug.LogError("No wolf prefabs assigned!");
+            return;
+        }
+        
+        // Удаляем старого волка, если есть
+        if (currentWolf != null)
+        {
+            Destroy(currentWolf);
+        }
+        
+        // Выбираем случайного волка
+        int wolfIndex = Random.Range(0, wolfPrefabs.Count);
+        currentWolf = Instantiate(wolfPrefabs[wolfIndex], wolfSpawnPoint.position, Quaternion.identity);
+        wolfAnimator = currentWolf.GetComponent<Animator>();
+        
+        // Убедимся, что волк смотрит в правильную сторону
+        currentWolf.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    void GenerateKeySequence()
+    {
+        keysToPress.Clear();
+        int keyCount = Random.Range(minKeys, maxKeys + 1);
+        
+        for (int i = 0; i < keyCount; i++)
+        {
+            int randomKeyIndex = Random.Range(0, possibleKeys.Count);
+            keysToPress.Add(possibleKeys[randomKeyIndex]);
+        }
+    }
+
+    void CreateKeyButtons()
+    {
+        // Очищаем старые кнопки
+        foreach (var key in keyObjects)
+        {
+            Destroy(key);
+        }
+        keyObjects.Clear();
+        
+        // Создаем новые кнопки
+        float spacing = 100f;
+        float startX = -((keysToPress.Count - 1) * spacing) / 2f;
+        
+        for (int i = 0; i < keysToPress.Count; i++)
+        {
+            GameObject keyObj = Instantiate(keyPrefab, keysParent);
+            keyObj.transform.localPosition = new Vector3(startX + i * spacing, 0, 0);
+            
+            // Настраиваем текст кнопки
+            TMP_Text keyText = keyObj.GetComponentInChildren<TMP_Text>();
+            if (keyText != null)
+            {
+                keyText.text = keysToPress[i].ToString();
+            }
+            
+            keyObjects.Add(keyObj);
+        }
     }
 
     void Update()
@@ -52,7 +140,6 @@ public class BattleSceneController : MonoBehaviour
         }
         else if (Input.anyKeyDown)
         {
-            // Проверяем, что нажата не та клавиша, которая ожидается
             bool wrongKey = true;
             foreach (KeyCode key in keysToPress)
             {
@@ -82,22 +169,22 @@ public class BattleSceneController : MonoBehaviour
     {
         for (int i = 0; i < keyObjects.Count; i++)
         {
-            var image = keyObjects[i].GetComponent<UnityEngine.UI.Image>();
+            var image = keyObjects[i].GetComponent<Image>();
             if (image != null)
             {
                 if (i == currentKeyIndex)
-                    image.color = Color.yellow; // Подсветка активной клавиши
+                    image.color = Color.yellow;
                 else if (i < currentKeyIndex)
-                    image.color = Color.gray;   // Уже нажатые
+                    image.color = Color.gray;
                 else
-                    image.color = Color.white;  // Обычные
+                    image.color = Color.white;
             }
         }
     }
 
     System.Collections.IEnumerator PlayPriestAttack()
     {
-        priestTransform.localScale = new Vector3(-1, 1, 1); // Герой всегда зеркален
+        priestTransform.localScale = new Vector3(-1, 1, 1);
         priestAnimator.Play("attack");
         yield return new WaitForSeconds(0.7f);
         priestAnimator.Play("idle");
@@ -105,7 +192,7 @@ public class BattleSceneController : MonoBehaviour
 
     System.Collections.IEnumerator PlayWolfAttack()
     {
-        wolfTransform.localScale = new Vector3(1, 1, 1);
+        currentWolf.transform.localScale = new Vector3(1, 1, 1);
         wolfAnimator.Play("attack");
         yield return null;
         float length = wolfAnimator.GetCurrentAnimatorStateInfo(0).length;
@@ -131,29 +218,37 @@ public class BattleSceneController : MonoBehaviour
 
     System.Collections.IEnumerator PriestVictory()
     {
-        priestTransform.localScale = new Vector3(-1, 1, 1); // Герой всегда зеркален
         priestAnimator.Play("victory");
         yield return null;
     }
 
     System.Collections.IEnumerator PriestHurt()
     {
-        priestTransform.localScale = new Vector3(-1, 1, 1); // Герой всегда зеркален
         priestAnimator.Play("hurt");
         yield return null;
     }
 
     System.Collections.IEnumerator WolfRunAway()
     {
-        wolfTransform.localScale = new Vector3(1, 1, 1); // Волк всегда зеркален
         wolfAnimator.Play("walk");
-        float startX = wolfTransform.position.x;
+        float startX = currentWolf.transform.position.x;
         float endX = startX - 5f;
-        while (wolfTransform.position.x > endX)
+        while (currentWolf.transform.position.x > endX)
         {
-            wolfTransform.position += Vector3.left * Time.deltaTime * 2f;
+            currentWolf.transform.position += Vector3.left * Time.deltaTime * 2f;
             yield return null;
         }
-        wolfAnimator.Play("walk");
+        Destroy(currentWolf);
+    }
+
+    // Метод для перезапуска боя
+    public void RestartBattle()
+    {
+        currentKeyIndex = 0;
+        correctCount = 0;
+        wrongCount = 0;
+        inputActive = true;
+        
+        InitializeBattle();
     }
 }

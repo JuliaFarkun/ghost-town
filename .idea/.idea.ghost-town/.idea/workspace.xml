@@ -23,17 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55de6085-94cc-4c2d-972f-34b496e58346" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/Priest.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/Priest.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/attack.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/hurt.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/hurt.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/idle.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/idle.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/victory.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/victory.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/Priest.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/Priest.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/wolf.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/wolf.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/wolf.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/wolf.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +112,8 @@
       <workItem from="1746902574024" duration="2070000" />
       <workItem from="1746954889527" duration="1062000" />
       <workItem from="1746969301153" duration="624000" />
+      <workItem from="1747411403766" duration="18000" />
+      <workItem from="1747411614769" duration="484000" />
     </task>
     <servers />
   </component>
