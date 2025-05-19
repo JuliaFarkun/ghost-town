@@ -23,8 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55de6085-94cc-4c2d-972f-34b496e58346" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/wolf_attack/attack.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/wolf_attack/attack.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/5f13c5f799f34d0dfaf835fd6a59f87eehAfeu07Z4boBKT9-0_0.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/5f13c5f799f34d0dfaf835fd6a59f87eehAfeu07Z4boBKT9-0_0.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/Button 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/Button 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/walk.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/walk.anim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/key.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/key.jpg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wolf/PixelWolf-Photoroom.png" beforeDir="false" afterPath="$PROJECT_DIR$/wolf/PixelWolf-Photoroom.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +123,11 @@
       <workItem from="1746969301153" duration="624000" />
       <workItem from="1747411403766" duration="18000" />
       <workItem from="1747411614769" duration="484000" />
+      <workItem from="1747574489545" duration="606000" />
+      <workItem from="1747637741837" duration="2616000" />
+      <workItem from="1747641004544" duration="68000" />
+      <workItem from="1747641161560" duration="113000" />
+      <workItem from="1747641452782" duration="915000" />
     </task>
     <servers />
   </component>

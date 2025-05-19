@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class DynamicBattleSceneController : MonoBehaviour
 {
@@ -9,17 +10,17 @@ public class DynamicBattleSceneController : MonoBehaviour
     public Transform priestTransform;
     
     [Header("Wolf Settings")]
-    public List<GameObject> wolfPrefabs; // Префабы разных волков
+    public List<GameObject> wolfPrefabs;
     public Transform wolfSpawnPoint;
     private Animator wolfAnimator;
     private GameObject currentWolf;
     
-    [Header("Key Settings")]
-    public GameObject keyPrefab; // Префаб кнопки
-    public Transform keysParent; // Родитель для кнопок
+    [Header("Key Settings")] 
+    public GameObject keyPrefab;
+    public Transform keysParent;
     public List<KeyCode> possibleKeys = new List<KeyCode> 
     { 
-        KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F, 
+        KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F,
         KeyCode.J, KeyCode.K, KeyCode.L, KeyCode.W 
     };
     public int minKeys = 3;
@@ -35,6 +36,10 @@ public class DynamicBattleSceneController : MonoBehaviour
     private int correctCount = 0;
     private int wrongCount = 0;
     private bool inputActive = true;
+    private bool isAttacking = false;
+    private bool isWolfAttacking = false;
+    private Coroutine currentPriestAttack;
+    private Coroutine currentWolfAttack;
 
     void Start()
     {
@@ -43,18 +48,25 @@ public class DynamicBattleSceneController : MonoBehaviour
 
     void InitializeBattle()
     {
-        // Создаем случайного волка
         SpawnRandomWolf();
-        
-        // Генерируем последовательность кнопок
         GenerateKeySequence();
-        
-        // Создаем визуальные кнопки
         CreateKeyButtons();
         
-        // Настраиваем начальные параметры
-        priestAnimator.Play("idle");
-        wolfAnimator.Play("walk");
+        // Сбрасываем все состояния
+        isAttacking = false;
+        isWolfAttacking = false;
+        if (currentPriestAttack != null) StopCoroutine(currentPriestAttack);
+        if (currentWolfAttack != null) StopCoroutine(currentWolfAttack);
+        
+        // Устанавливаем начальные анимации
+        priestAnimator.Rebind();
+        priestAnimator.Update(0f);
+        wolfAnimator.Rebind();
+        wolfAnimator.Update(0f);
+        
+        priestAnimator.Play("idle", 0, 0f);
+        wolfAnimator.Play("walk", 0, 0f);
+        
         resultText.text = "";
         priestTransform.localScale = new Vector3(-1, 1, 1);
         priestTransform.position = priestStartPosition;
@@ -70,18 +82,14 @@ public class DynamicBattleSceneController : MonoBehaviour
             return;
         }
         
-        // Удаляем старого волка, если есть
         if (currentWolf != null)
         {
             Destroy(currentWolf);
         }
         
-        // Выбираем случайного волка
         int wolfIndex = Random.Range(0, wolfPrefabs.Count);
         currentWolf = Instantiate(wolfPrefabs[wolfIndex], wolfSpawnPoint.position, Quaternion.identity);
         wolfAnimator = currentWolf.GetComponent<Animator>();
-        
-        // Убедимся, что волк смотрит в правильную сторону
         currentWolf.transform.localScale = new Vector3(1, 1, 1);
     }
 
@@ -92,21 +100,18 @@ public class DynamicBattleSceneController : MonoBehaviour
         
         for (int i = 0; i < keyCount; i++)
         {
-            int randomKeyIndex = Random.Range(0, possibleKeys.Count);
-            keysToPress.Add(possibleKeys[randomKeyIndex]);
+            keysToPress.Add(possibleKeys[Random.Range(0, possibleKeys.Count)]);
         }
     }
 
     void CreateKeyButtons()
     {
-        // Очищаем старые кнопки
         foreach (var key in keyObjects)
         {
             Destroy(key);
         }
         keyObjects.Clear();
         
-        // Создаем новые кнопки
         float spacing = 100f;
         float startX = -((keysToPress.Count - 1) * spacing) / 2f;
         
@@ -115,7 +120,6 @@ public class DynamicBattleSceneController : MonoBehaviour
             GameObject keyObj = Instantiate(keyPrefab, keysParent);
             keyObj.transform.localPosition = new Vector3(startX + i * spacing, 0, 0);
             
-            // Настраиваем текст кнопки
             TMP_Text keyText = keyObj.GetComponentInChildren<TMP_Text>();
             if (keyText != null)
             {
@@ -131,12 +135,20 @@ public class DynamicBattleSceneController : MonoBehaviour
         if (!inputActive || currentKeyIndex >= keysToPress.Count)
             return;
 
+        if (isAttacking || isWolfAttacking)
+            return;
+
         if (Input.GetKeyDown(keysToPress[currentKeyIndex]))
         {
             correctCount++;
-            StartCoroutine(PlayPriestAttack());
             currentKeyIndex++;
             HighlightCurrentKey();
+            
+            // Запускаем атаку только если не атакуем уже
+            if (!isAttacking && currentPriestAttack == null)
+            {
+                currentPriestAttack = StartCoroutine(PlayPriestAttack());
+            }
         }
         else if (Input.anyKeyDown)
         {
@@ -152,11 +164,23 @@ public class DynamicBattleSceneController : MonoBehaviour
             if (wrongKey)
             {
                 wrongCount++;
-                StartCoroutine(PlayWolfAttack());
                 currentKeyIndex++;
                 HighlightCurrentKey();
+                
+                // Запускаем атаку волка только если не атакует уже
+                if (!isWolfAttacking && currentWolfAttack == null)
+                {
+                    currentWolfAttack = StartCoroutine(PlayWolfAttack());
+                }
             }
         }
+
+        if (currentKeyIndex >= keysToPress.Count)
+        {
+            inputActive = false;
+            Invoke("ShowResult", 1f);
+        }
+    
 
         if (currentKeyIndex >= keysToPress.Count)
         {
@@ -172,32 +196,10 @@ public class DynamicBattleSceneController : MonoBehaviour
             var image = keyObjects[i].GetComponent<Image>();
             if (image != null)
             {
-                if (i == currentKeyIndex)
-                    image.color = Color.yellow;
-                else if (i < currentKeyIndex)
-                    image.color = Color.gray;
-                else
-                    image.color = Color.white;
+                image.color = i == currentKeyIndex ? Color.yellow : 
+                             i < currentKeyIndex ? Color.gray : Color.white;
             }
         }
-    }
-
-    System.Collections.IEnumerator PlayPriestAttack()
-    {
-        priestTransform.localScale = new Vector3(-1, 1, 1);
-        priestAnimator.Play("attack");
-        yield return new WaitForSeconds(0.7f);
-        priestAnimator.Play("idle");
-    }
-
-    System.Collections.IEnumerator PlayWolfAttack()
-    {
-        currentWolf.transform.localScale = new Vector3(1, 1, 1);
-        wolfAnimator.Play("attack");
-        yield return null;
-        float length = wolfAnimator.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(length);
-        wolfAnimator.Play("walk");
     }
 
     void ShowResult()
@@ -212,43 +214,117 @@ public class DynamicBattleSceneController : MonoBehaviour
         {
             resultText.text = "Проигрыш";
             StartCoroutine(PriestHurt());
-            StartCoroutine(PlayWolfAttack());
+            StartCoroutine(WolfRunAwayLeft());
         }
     }
 
-    System.Collections.IEnumerator PriestVictory()
+    IEnumerator PlayPriestAttack()
     {
-        priestAnimator.Play("victory");
-        yield return null;
+        if (isAttacking) yield break; // Если уже атакуем, выходим
+        
+        isAttacking = true;
+        
+        // Сбрасываем состояние аниматора
+        priestAnimator.Rebind();
+        priestAnimator.Update(0f);
+        
+        // Устанавливаем разворот и проигрываем анимацию атаки
+        priestTransform.localScale = new Vector3(-1, 1, 1);
+        priestAnimator.Play("attack", 0, 0f);
+        
+        // Ждем полного цикла анимации
+        yield return new WaitForSeconds(priestAnimator.GetCurrentAnimatorStateInfo(0).length);
+        
+        // Возвращаемся к анимации idle
+        priestAnimator.Play("idle", 0, 0f);
+        
+        isAttacking = false;
+        currentPriestAttack = null;
     }
 
-    System.Collections.IEnumerator PriestHurt()
+    IEnumerator PlayWolfAttack()
     {
-        priestAnimator.Play("hurt");
-        yield return null;
+        isWolfAttacking = true;
+        
+        // Сбрасываем состояние аниматора
+        wolfAnimator.Rebind();
+        wolfAnimator.Update(0f);
+        
+        // Устанавливаем разворот и проигрываем анимацию атаки
+        currentWolf.transform.localScale = new Vector3(1, 1, 1);
+        wolfAnimator.Play("attack", 0, 0f);
+        
+        // Ждем полного цикла анимации
+        AnimatorStateInfo stateInfo = wolfAnimator.GetCurrentAnimatorStateInfo(0);
+        float startTime = Time.time;
+        while (Time.time - startTime < stateInfo.length)
+        {
+            yield return null;
+        }
+        
+        // Возвращаемся к анимации walk
+        wolfAnimator.Play("walk", 0, 0f);
+        
+        isWolfAttacking = false;
+        currentWolfAttack = null;
     }
 
-    System.Collections.IEnumerator WolfRunAway()
+    IEnumerator WolfRunAwayLeft()
     {
-        wolfAnimator.Play("walk");
+        // Разворачиваем волка влево
+        currentWolf.transform.localScale = new Vector3(-1, 1, 1);
+        
+        // Проигрываем анимацию walk
+        wolfAnimator.Play("walk", 0, 0f);
+        
+        // Параметры движения
         float startX = currentWolf.transform.position.x;
-        float endX = startX - 5f;
+        float endX = startX - 5f; // Убегает влево
+        float runSpeed = 3f;
+        
+        // Движение волка
         while (currentWolf.transform.position.x > endX)
         {
-            currentWolf.transform.position += Vector3.left * Time.deltaTime * 2f;
+            currentWolf.transform.position += Vector3.left * runSpeed * Time.deltaTime;
+            yield return null;
+        }
+        
+        Destroy(currentWolf);
+    }
+
+    IEnumerator WolfRunAway()
+    {
+        // Волк убегает вправо
+        currentWolf.transform.localScale = new Vector3(1, 1, 1);
+        wolfAnimator.Play("walk", 0, 0f);
+        float startX = currentWolf.transform.position.x;
+        float endX = startX + 5f;
+        while (currentWolf.transform.position.x < endX)
+        {
+            currentWolf.transform.position += Vector3.right * Time.deltaTime * 2f;
             yield return null;
         }
         Destroy(currentWolf);
     }
 
-    // Метод для перезапуска боя
+    IEnumerator PriestVictory()
+    {
+        priestAnimator.Play("victory", 0, 0f);
+        yield return null;
+    }
+
+    IEnumerator PriestHurt()
+    {
+        priestAnimator.Play("hurt", 0, 0f);
+        yield return null;
+    }
+
     public void RestartBattle()
     {
         currentKeyIndex = 0;
         correctCount = 0;
         wrongCount = 0;
         inputActive = true;
-        
         InitializeBattle();
     }
 }
