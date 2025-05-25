@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13966, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: newscene
+  m_EditorClassIdentifier: 
+  templateScene: {fileID: 102900000, guid: 9784c760203e2b6478b30583408b2a62, type: 3}
+  templateName: 
+  description: 
+  preview: {fileID: 0}
+  dependencies:
+  - dependency: {fileID: 2800000, guid: 8ed4acd29f5a83144af05834841a55a1, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 1d66a668a091e6f45996c477969741fa, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 61bda409e13a345bcb9e55db18b42f74, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: e5dd34f5675cb8b4a93cf7627a05daeb, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 7400000, guid: 0994d9eb2ab8d284896f0a0293e1151b, type: 2}
+    instantiationMode: 0
+  - dependency: {fileID: 9100000, guid: 1f3effebad4e05746a24b61b626bf84d, type: 2}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 20d6cce5c7ac33b4e97f0f98a09aa347, type: 3}
+    instantiationMode: 0
+  templatePipeline: {fileID: 0}
+  badge: {fileID: 0}
+  addToDefaults: 0
