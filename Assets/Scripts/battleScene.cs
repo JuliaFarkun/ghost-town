@@ -130,7 +130,7 @@ public class DynamicBattleSceneController : MonoBehaviour
         wolfAnimator.Update(0f);
         
         priestAnimator.Play("idle", 0, 0f);
-        wolfAnimator.Play("walk1", 0, 0f);
+        wolfAnimator.Play("walk 1", 0, 0f);
         
         resultText.text = "";
         priestTransform.localScale = new Vector3(-1, 1, 1);
@@ -319,14 +319,17 @@ public class DynamicBattleSceneController : MonoBehaviour
         
         wolfAnimator.Play("attack", 0, 0f);
         
-        AnimatorStateInfo stateInfo = wolfAnimator.GetCurrentAnimatorStateInfo(0);
-        float startTime = Time.time;
-        while (Time.time - startTime < stateInfo.length)
+        // Ждем завершения анимации атаки, проверяя normalizedTime
+        yield return null; // Ждем один кадр, чтобы Animator успел обновить состояние
+        AnimatorStateInfo stateInfo;
+        // Ждем, пока текущее состояние станет 'attack' и normalizedTime достигнет 1
+        do
         {
             yield return null;
         }
+        while ((stateInfo = wolfAnimator.GetCurrentAnimatorStateInfo(0)).IsName("attack") && stateInfo.normalizedTime < 1.0f); // Убедимся, что ждем именно анимацию атаки
         
-        wolfAnimator.Play("walk1", 0, 0f);
+        wolfAnimator.Play("walk 1", 0, 0f); // Используем анимацию walk после возвращения к ходьбе
         
         isWolfAttacking = false;
         currentWolfAttack = null;

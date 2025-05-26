@@ -301,7 +301,6 @@ MonoBehaviour:
   priestAnimator: {fileID: 959633424}
   priestTransform: {fileID: 959633427}
   wolfPrefabs:
-  - {fileID: 8225701310599975286, guid: 926a4f3ec85024e4991fb6db133048e3, type: 3}
   - {fileID: 2099423394870031403, guid: 105f93ba25b21f243986a01283128757, type: 3}
   - {fileID: 2441068958799455335, guid: 45eec4b0f2d30274ebb420013e84cca2, type: 3}
   wolfSpawnPoint: {fileID: 1172814187}
