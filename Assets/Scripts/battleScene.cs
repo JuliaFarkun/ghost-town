@@ -28,14 +28,8 @@ public class DynamicBattleSceneController : MonoBehaviour
     
     [Header("UI Settings")]
     public TMP_Text resultText;
+    public TMP_Text timerText; // Добавлено для отображения таймера
     public Vector3 priestStartPosition;
-    
-    [Header("Timer Settings")]
-    public TMP_Text timerText;
-    public Image timerBackground;
-    public Color timerNormalColor = Color.white;
-    public Color timerWarningColor = Color.red;
-    public float warningThreshold = 3f;
     
     private List<KeyCode> keysToPress = new List<KeyCode>();
     private List<GameObject> keyObjects = new List<GameObject>();
@@ -47,77 +41,52 @@ public class DynamicBattleSceneController : MonoBehaviour
     private bool isWolfAttacking = false;
     private Coroutine currentPriestAttack;
     private Coroutine currentWolfAttack;
-    private Coroutine battleTimerCoroutine;
-    private bool isBattleStarted = false;
+    private Coroutine battleTimerCoroutine; // Добавлено для управления таймером
+    private bool isBattleStarted = false; // Добавлено для отслеживания состояния боя
 
     void Start()
     {
-        SetupTimerUI();
         StartCoroutine(BattleStartCountdown());
-    }
-
-    void SetupTimerUI()
-    {
-        // Настраиваем RectTransform для таймера
-        RectTransform timerRect = timerText.GetComponent<RectTransform>();
-        timerRect.anchorMin = new Vector2(0, 0);
-        timerRect.anchorMax = new Vector2(0, 0);
-        timerRect.pivot = new Vector2(0, 0);
-        timerRect.anchoredPosition = new Vector2(20, 20);
-        
-        // Настраиваем фон таймера
-        if (timerBackground != null)
-        {
-            RectTransform bgRect = timerBackground.GetComponent<RectTransform>();
-            bgRect.anchorMin = new Vector2(0, 0);
-            bgRect.anchorMax = new Vector2(0, 0);
-            bgRect.pivot = new Vector2(0, 0);
-            bgRect.anchoredPosition = new Vector2(10, 10);
-            bgRect.sizeDelta = new Vector2(120, 40);
-        }
-        
-        timerText.fontSize = 24;
-        timerText.color = timerNormalColor;
-        timerText.alignment = TextAlignmentOptions.Center;
     }
 
     IEnumerator BattleStartCountdown()
     {
-        timerText.text = "3";
-        yield return new WaitForSeconds(1f);
-        timerText.text = "2";
-        yield return new WaitForSeconds(1f);
-        timerText.text = "1";
-        yield return new WaitForSeconds(1f);
+        // 3 секунды до начала боя
+        timerText.gameObject.SetActive(true);
+        for (int i = 3; i > 0; i--)
+        {
+            timerText.text = $"Battle starts in: {i}";
+            yield return new WaitForSeconds(1f);
+        }
+        
         timerText.text = "FIGHT!";
         yield return new WaitForSeconds(0.5f);
+        timerText.gameObject.SetActive(false);
         
+        // Инициализируем бой
         InitializeBattle();
+        
+        // Запускаем таймер боя (5 секунд)
+        isBattleStarted = true;
         battleTimerCoroutine = StartCoroutine(BattleTimer());
     }
 
     IEnumerator BattleTimer()
     {
         float battleTime = 5f;
-        isBattleStarted = true;
-        
         while (battleTime > 0)
         {
             battleTime -= Time.deltaTime;
-            
-            // Меняем цвет при приближении к концу времени
-            if (battleTime <= warningThreshold)
-            {
-                timerText.color = timerWarningColor;
-            }
-            
-            timerText.text = Mathf.CeilToInt(battleTime).ToString();
+            timerText.gameObject.SetActive(true);
+            timerText.text = $"Time left: {Mathf.CeilToInt(battleTime)}";
             yield return null;
         }
         
-        timerText.text = "TIME UP!";
+        timerText.text = "TIME'S UP!";
         yield return new WaitForSeconds(0.5f);
+        timerText.gameObject.SetActive(false);
         
+        // Завершаем бой по таймеру
         EndBattleByTimer();
     }
 
@@ -125,14 +94,18 @@ public class DynamicBattleSceneController : MonoBehaviour
     {
         inputActive = false;
         isBattleStarted = false;
-        
+        HideKeyButtons();
+
+        // Определяем результат по текущему прогрессу
         if (currentKeyIndex >= keysToPress.Count)
         {
+            // Если все клавиши нажаты, показываем результат
             ShowResult();
         }
         else
         {
-            resultText.text = "TIME OVER!";
+            // Если время вышло, считаем это поражением
+            resultText.text = "Проигрыш (время)";
             StartCoroutine(PriestHurt());
             StartCoroutine(WolfRunAwayLeft());
         }
@@ -144,18 +117,20 @@ public class DynamicBattleSceneController : MonoBehaviour
         GenerateKeySequence();
         CreateKeyButtons();
         
+        // Сбрасываем все состояния
         isAttacking = false;
         isWolfAttacking = false;
         if (currentPriestAttack != null) StopCoroutine(currentPriestAttack);
         if (currentWolfAttack != null) StopCoroutine(currentWolfAttack);
         
+        // Устанавливаем начальные анимации
         priestAnimator.Rebind();
         priestAnimator.Update(0f);
         wolfAnimator.Rebind();
         wolfAnimator.Update(0f);
         
         priestAnimator.Play("idle", 0, 0f);
-        wolfAnimator.Play("walk", 0, 0f);
+        wolfAnimator.Play("walk1", 0, 0f);
         
         resultText.text = "";
         priestTransform.localScale = new Vector3(-1, 1, 1);
@@ -179,7 +154,7 @@ public class DynamicBattleSceneController : MonoBehaviour
         
         int wolfIndex = Random.Range(0, wolfPrefabs.Count);
         currentWolf = Instantiate(wolfPrefabs[wolfIndex], wolfSpawnPoint.position, Quaternion.identity);
-        wolfAnimator = currentWolf.GetComponent<Animator>();
+        wolfAnimator = currentWolf.GetComponentInChildren<Animator>();
         currentWolf.transform.localScale = new Vector3(1, 1, 1);
     }
 
@@ -304,6 +279,17 @@ public class DynamicBattleSceneController : MonoBehaviour
         }
     }
 
+    void HideKeyButtons()
+    {
+        foreach (var keyObj in keyObjects)
+        {
+            if (keyObj != null) // Проверка на null, чтобы избежать ошибок, если объект уже был уничтожен по какой-то причине
+            {
+                keyObj.gameObject.SetActive(false);
+            }
+        }
+    }
+
     IEnumerator PlayPriestAttack()
     {
         if (isAttacking) yield break;
@@ -331,7 +317,6 @@ public class DynamicBattleSceneController : MonoBehaviour
         wolfAnimator.Rebind();
         wolfAnimator.Update(0f);
         
-        currentWolf.transform.localScale = new Vector3(1, 1, 1);
         wolfAnimator.Play("attack", 0, 0f);
         
         AnimatorStateInfo stateInfo = wolfAnimator.GetCurrentAnimatorStateInfo(0);
@@ -341,7 +326,7 @@ public class DynamicBattleSceneController : MonoBehaviour
             yield return null;
         }
         
-        wolfAnimator.Play("walk", 0, 0f);
+        wolfAnimator.Play("walk1", 0, 0f);
         
         isWolfAttacking = false;
         currentWolfAttack = null;
@@ -349,7 +334,6 @@ public class DynamicBattleSceneController : MonoBehaviour
 
     IEnumerator WolfRunAwayLeft()
     {
-        currentWolf.transform.localScale = new Vector3(-1, 1, 1);
         wolfAnimator.Play("walk", 0, 0f);
         
         float startX = currentWolf.transform.position.x;
@@ -367,7 +351,6 @@ public class DynamicBattleSceneController : MonoBehaviour
 
     IEnumerator WolfRunAway()
     {
-        currentWolf.transform.localScale = new Vector3(1, 1, 1);
         wolfAnimator.Play("walk", 0, 0f);
         float startX = currentWolf.transform.position.x;
         float endX = startX + 5f;
@@ -403,7 +386,7 @@ public class DynamicBattleSceneController : MonoBehaviour
             StopCoroutine(battleTimerCoroutine);
         }
         
-        timerText.color = timerNormalColor;
+        timerText.gameObject.SetActive(false);
         StartCoroutine(BattleStartCountdown());
     }
 }
