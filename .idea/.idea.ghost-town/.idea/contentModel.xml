@@ -6,6 +6,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="battleScene.cs" t="Include" />
+          <e p="FinalBattle.cs" t="Include" />
           <e p="ghosgirl.cs" t="Include" />
           <e p="herowalk.cs" t="Include" />
           <e p="Player.cs" t="Include" />

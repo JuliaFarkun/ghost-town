@@ -23,16 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55de6085-94cc-4c2d-972f-34b496e58346" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/attack.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/wolf_attack/attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/wolf_attack/attack.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/wolf_attack/attack.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/wolf_attack/attack.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/attack.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/walk 1.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/walk 1.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/walk 1.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/walk 1.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/walk.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/walk.anim" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +45,7 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/herowalk.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/FinalBattle.cs" />
       </list>
     </option>
   </component>
@@ -129,7 +123,9 @@
       <workItem from="1747641452782" duration="915000" />
       <workItem from="1748234917958" duration="6740000" />
       <workItem from="1748282161045" duration="524000" />
-      <workItem from="1748282926956" duration="355000" />
+      <workItem from="1748282926956" duration="914000" />
+      <workItem from="1748701062603" duration="1718000" />
+      <workItem from="1748706080587" duration="6289000" />
     </task>
     <servers />
   </component>
