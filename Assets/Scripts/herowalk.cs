@@ -21,7 +21,7 @@ public class HeroController : MonoBehaviour
         if (Input.GetKey(KeyCode.DownArrow))
         {
             movement.y = -1;
-            animator.Play("walk"); // Анимация ходьбы лицом к игроку
+            animator.Play("walkright"); // Анимация ходьбы лицом к игроку
             spriteRenderer.flipX = false;
         }
         else if (Input.GetKey(KeyCode.UpArrow))
@@ -33,13 +33,13 @@ public class HeroController : MonoBehaviour
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             movement.x = -1;
-            animator.Play("walkright");
+            animator.Play("walk");
             spriteRenderer.flipX = false; // Лицом вправо
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             movement.x = 1;
-            animator.Play("walk");
+            animator.Play("walkright");
             spriteRenderer.flipX = true; // Лицом влево (отражение по X)
         }
         else
