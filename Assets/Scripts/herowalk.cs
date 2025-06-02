@@ -3,6 +3,8 @@ using UnityEngine;
 public class HeroController : MonoBehaviour
 {
     public float speed = 3f;
+    public AudioSource audioSource; // Добавьте это поле для ссылки на компонент AudioSource
+    public AudioClip walkSound;     // Добавьте это поле для аудиоклипа шагов
     private Animator animator;
     private Vector2 movementInput; // Вектор для хранения ввода
     private Rigidbody2D rb;        // Ссылка на Rigidbody2D
@@ -23,6 +25,7 @@ public class HeroController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         heroCollider = GetComponent<Collider2D>(); // Получаем Collider2D
+        audioSource = GetComponent<AudioSource>(); // Получаем ссылку на AudioSource
 
         if (rb == null)
         {
@@ -44,7 +47,10 @@ public class HeroController : MonoBehaviour
         {
             Debug.LogWarning("HeroController: SpriteRenderer не найден на объекте " + gameObject.name + ". Отражение спрайта может не работать.");
         }
-
+        if (audioSource == null)
+        {
+            Debug.LogWarning("HeroController: AudioSource не найден на объекте " + gameObject.name + ". Звуки не будут работать.");
+        }
 
         if (rb.bodyType != RigidbodyType2D.Kinematic)
         {
@@ -55,6 +61,27 @@ public class HeroController : MonoBehaviour
 
         if (animator != null) animator.Play(IDLE_ANIMATION);
         // lastNonZeroMovement = new Vector2(0, -1); // Начальное направление для idle (если нужно)
+
+        // Логика управления звуком шагов
+        if (audioSource != null && walkSound != null)
+        {
+            if (movementInput != Vector2.zero)
+            {
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.clip = walkSound;
+                    audioSource.loop = true; // Зацикливаем звук шагов пока идем
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
+            }
+        }
     }
 
     void Update()
@@ -116,80 +143,35 @@ public class HeroController : MonoBehaviour
         // и персонаж остается на месте, что корректно.
     }
 
-    void UpdateAnimationAndSprite()
+        void UpdateAnimationAndSprite()
     {
         if (animator == null || spriteRenderer == null) return; // Если нет аниматора или спрайта, ничего не делаем
 
         if (movementInput != Vector2.zero)
         {
-            // lastNonZeroMovement = movementInput; // Если нужно запоминать последнее направление для idle
+            // ... (ваш существующий код для анимации и отражения) ...
 
-            // Отражение спрайта по X
-                        // Отражение спрайта по X
-            // Проверяем, есть ли заметное горизонтальное движение
-            if (Mathf.Abs(movementInput.x) > 0.01f)
+            // Логика управления звуком шагов при движении
+            if (audioSource != null && walkSound != null)
             {
-                // Если движемся вправо
-                if (movementInput.x > 0)
+                if (!audioSource.isPlaying)
                 {
-                    spriteRenderer.flipX = true;
+                    audioSource.clip = walkSound;
+                    audioSource.loop = true; // Зацикливаем звук шагов пока идем
+                    audioSource.Play();
                 }
-                // Если движемся влево
-                else
-                {
-                    spriteRenderer.flipX = false;
-                }
-            }
-            // Если нет горизонтального движения, оставляем текущее отражение
-            // Если movementInput.x близок к нулю, flipX не меняется (персонаж сохраняет направление)
-
-                        // Определение основной оси движения для выбора анимации и отражения спрайта
-            if (Mathf.Abs(movementInput.y) > Mathf.Abs(movementInput.x))
-            {
-                // Вертикальное движение доминирует
-                if (movementInput.y > 0)
-                {
-                    animator.Play(WALK_BACK_ANIMATION);
-                    // При вертикальном движении оставляем текущее горизонтальное отражение
-                }
-                else
-                {
-                    animator.Play(WALK_FRONT_ANIMATION); // Здесь проигрывается "walkright" при движении вниз
-                    // При вертикальном движении оставляем текущее горизонтальное отражение
-                }
-            }
-            else
-            {
-                // Горизонтальное движение доминирует или равно вертикальному
-                if (movementInput.x > 0.01f) // Движение вправо
-                {
-                    animator.Play(WALK_FRONT_ANIMATION); // Проигрываем анимацию "walkright"
-                    spriteRenderer.flipX = false; // Убедимся, что спрайт НЕ отзеркален (если walkright смотрит вправо)
-                }
-                else if (movementInput.x < -0.01f) // Движение влево
-                {
-                    animator.Play(WALK_SIDE_ANIMATION); // Проигрываем анимацию "walk" (или другую для ходьбы влево)
-                    spriteRenderer.flipX = true; // Отзеркаливаем спрайт, чтобы он смотрел влево
-                }
-                else // Нет горизонтального движения (возможно, только вертикальное, но уже обработано)
-                {
-                     // Если сюда попали с очень маленьким горизонтальным движением, сохраняем текущую анимацию/отражение
-                }
-            }
-
-            // Если нет никакого движения, проигрываем Idle
-            if (movementInput == Vector2.zero)
-            {
-                 animator.Play(IDLE_ANIMATION);
-                 // Оставляем последнее направление для Idle
             }
         }
-        else
+        else // movementInput == Vector2.zero
         {
             // Нет движения, играем Idle
-            // Здесь можно было бы использовать lastNonZeroMovement для Idle анимации в определенном направлении,
-            // но пока просто общая Idle.
             animator.Play(IDLE_ANIMATION);
+
+            // Логика управления звуком шагов при остановке
+            if (audioSource != null && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
     

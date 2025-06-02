@@ -11,6 +11,14 @@ public class DynamicBattleSceneController : MonoBehaviour
     public Animator priestAnimator;
     public Transform priestTransform;
     
+    [Header("Audio Settings")] // Добавляем секцию для аудио
+    public AudioSource audioSource; // Ссылка на AudioSource для звуков атак и результата
+    public AudioClip priestAttackSound; // Звук атаки жреца
+    public AudioClip wolfAttackSound;   // Звук атаки волка
+    public AudioClip victorySound;      // Звук победы
+    public AudioClip defeatSound;       // Звук проигрыша
+    public AudioSource backgroundMusicSource; // Ссылка на AudioSource фоновой музыки
+
     [Header("Wolf Settings")]
     public List<GameObject> wolfPrefabs; // BlackWolf (Element 0), WhiteWolf (Element 1)
     public Transform wolfSpawnPoint;
@@ -64,6 +72,13 @@ public class DynamicBattleSceneController : MonoBehaviour
         {
             Debug.LogWarning("DynamicBattleSceneController: Wolf Identifier не был передан. Используются параметры для Черного Волка (дефолт).");
             activeWolfIdentifier = "BlackWolf"; 
+        }
+
+        // Получаем компонент AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogWarning("DynamicBattleSceneController: AudioSource не найден на объекте " + gameObject.name + ". Звуки атак не будут работать.");
         }
 
         SetupBattleParametersForWolf(activeWolfIdentifier);
@@ -384,6 +399,31 @@ public class DynamicBattleSceneController : MonoBehaviour
             resultText.color = playerWon ? Color.green : Color.red;
         }
 
+        // Останавливаем фоновую музыку, если она проигрывается
+        if (backgroundMusicSource != null && backgroundMusicSource.isPlaying)
+        {
+            backgroundMusicSource.Stop();
+        }
+
+        // Воспроизводим звук победы или поражения
+        if (audioSource != null)
+        {
+            // Удаляем предыдущую логику остановки, так как фоновая музыка на другом источнике
+            // if (audioSource.isPlaying)
+            // {
+            //     audioSource.Stop();
+            // }
+
+            if (playerWon && victorySound != null)
+            {
+                audioSource.PlayOneShot(victorySound);
+            }
+            else if (!playerWon && defeatSound != null)
+            {
+                audioSource.PlayOneShot(defeatSound);
+            }
+        }
+
         // Определяем исход и урон
         string finalOutcome;
         int finalDamage;
@@ -429,6 +469,13 @@ public class DynamicBattleSceneController : MonoBehaviour
         if (isAttacking || priestAnimator == null) yield break;
         isAttacking = true; 
         priestAnimator.Play("attack", 0, 0f); 
+        
+        // Воспроизводим звук атаки жреца
+        if (audioSource != null && priestAttackSound != null)
+        {
+            audioSource.PlayOneShot(priestAttackSound);
+        }
+
         yield return null; 
         // Ждем фактической длительности анимации
         float animationLength = 0;
@@ -440,6 +487,12 @@ public class DynamicBattleSceneController : MonoBehaviour
         if (priestAnimator != null) priestAnimator.Play("idle", 0, 0f);
         isAttacking = false; 
         currentPriestAttack = null;
+
+        // Останавливаем звук атаки жреца, если он еще играет (PlayOneShot сам остановится, но на всякий случай)
+        // if (audioSource != null && audioSource.isPlaying && audioSource.clip == priestAttackSound)
+        // {
+        //     audioSource.Stop();
+        // }
     }
 
     IEnumerator PlayWolfAttack() 
@@ -447,6 +500,13 @@ public class DynamicBattleSceneController : MonoBehaviour
         if(wolfAnimator == null || isWolfAttacking) yield break;
         isWolfAttacking = true; 
         wolfAnimator.Play("attack", 0, 0f);
+
+        // Воспроизводим звук атаки волка
+        if (audioSource != null && wolfAttackSound != null)
+        {
+            audioSource.PlayOneShot(wolfAttackSound);
+        }
+
         yield return null; 
         AnimatorStateInfo stateInfo = wolfAnimator.GetCurrentAnimatorStateInfo(0);
         float timer = 0f; 
@@ -466,6 +526,12 @@ public class DynamicBattleSceneController : MonoBehaviour
         if (wolfAnimator != null) wolfAnimator.Play("walk 1", 0, 0f); // Волк: "walk 1" (боевая стойка)
         isWolfAttacking = false; 
         currentWolfAttack = null;
+
+        // Останавливаем звук атаки волка, если он еще играет (PlayOneShot сам остановится, но на всякий случай)
+        // if (audioSource != null && audioSource.isPlaying && audioSource.clip == wolfAttackSound)
+        // {
+        //     audioSource.Stop();
+        // }
     }
 
     IEnumerator WolfRunAway() 
