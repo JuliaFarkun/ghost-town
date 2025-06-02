@@ -143,35 +143,73 @@ public class HeroController : MonoBehaviour
         // и персонаж остается на месте, что корректно.
     }
 
-        void UpdateAnimationAndSprite()
+    void UpdateAnimationAndSprite()
     {
-        if (animator == null || spriteRenderer == null) return; // Если нет аниматора или спрайта, ничего не делаем
+        if (animator == null || spriteRenderer == null) return;
 
-        if (movementInput != Vector2.zero)
+        // Используем имена анимаций, как в herowalk_right.cs (предполагается, что они определены как константы в этом классе herowalk.cs)
+        // const string IDLE_ANIMATION = "idle";
+        // const string WALK_FRONT_ANIMATION = "walkright";
+        // const string WALK_BACK_ANIMATION = "walkback";
+        // const string WALK_SIDE_ANIMATION = "walk";
+
+        if (movementInput != Vector2.zero) // Если есть движение
         {
-            // ... (ваш существующий код для анимации и отражения) ...
+            // --- Начало логики анимации и отражения (основано на herowalk_right.cs) ---
+            // Приоритет вертикальному движению
+            if (Mathf.Abs(movementInput.y) > Mathf.Abs(movementInput.x))
+            {
+                if (movementInput.y > 0)
+                {
+                    animator.Play(WALK_BACK_ANIMATION);
+                }
+                else
+                {
+                    animator.Play(WALK_FRONT_ANIMATION); // "walkright" для движения вниз
+                }
+                // Примечание: flipX для чисто вертикального движения здесь не меняется,
+                // сохраняя последнее горизонтальное направление или дефолтное.
+            }
+            // Иначе, если доминирует (или равно) горизонтальное движение
+            else if (Mathf.Abs(movementInput.x) > 0.01f) 
+            {
+                if (movementInput.x > 0) // Движение вправо
+                {
+                    animator.Play(WALK_FRONT_ANIMATION); // "walkright" для движения вправо
+                    spriteRenderer.flipX = false; // Предполагаем, что "walkright" смотрит вправо по умолчанию
+                }
+                else // Движение влево (movementInput.x < 0)
+                {
+                    animator.Play(WALK_SIDE_ANIMATION); // "walk" для движения влево
+                    spriteRenderer.flipX = true; // Предполагаем, что "walk" (базовая) смотрит вправо и ее надо отразить
+                }
+            }
+            // Если движение очень мало и не подпадает под условия выше,
+            // будет сохранена последняя активная анимация ходьбы.
+            // --- Конец логики анимации и отражения ---
 
-            // Логика управления звуком шагов при движении
+            // --- Сохраненная логика звука шагов (из оригинального herowalk.cs) ---
             if (audioSource != null && walkSound != null)
             {
                 if (!audioSource.isPlaying)
                 {
                     audioSource.clip = walkSound;
-                    audioSource.loop = true; // Зацикливаем звук шагов пока идем
+                    audioSource.loop = true;
                     audioSource.Play();
                 }
             }
+            // --- Конец логики звука шагов ---
         }
-        else // movementInput == Vector2.zero
+        else // Нет движения
         {
-            // Нет движения, играем Idle
             animator.Play(IDLE_ANIMATION);
 
-            // Логика управления звуком шагов при остановке
+            // --- Сохраненная логика остановки звука шагов (из оригинального herowalk.cs) ---
             if (audioSource != null && audioSource.isPlaying)
             {
                 audioSource.Stop();
             }
+            // --- Конец логики остановки звука шагов ---
         }
     }
     
