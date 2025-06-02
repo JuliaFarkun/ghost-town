@@ -230,7 +230,7 @@ public class DynamicBattleSceneController : MonoBehaviour
         {
             priestAnimator.Rebind(); 
             priestAnimator.Update(0f); 
-            priestAnimator.Play("idle", 0, 0f); 
+            priestAnimator.Play("idle 1", 0, 0f); 
         }
         if (wolfAnimator != null) 
         {
@@ -484,7 +484,7 @@ public class DynamicBattleSceneController : MonoBehaviour
         else Debug.LogWarning("PlayPriestAttack: Анимация жреца не 'attack' сразу после Play.");
         yield return new WaitForSeconds(animationLength > 0 ? animationLength : 0.5f); // Запасной вариант, если length = 0
 
-        if (priestAnimator != null) priestAnimator.Play("idle", 0, 0f);
+        if (priestAnimator != null) priestAnimator.Play("idle 1", 0, 0f);
         isAttacking = false; 
         currentPriestAttack = null;
 
