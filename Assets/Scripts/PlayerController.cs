@@ -1,3 +1,4 @@
+// PlayerController.cs
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,49 +7,57 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
 
-    // Для паузы
-    public static bool isGamePaused = false;
-
+    public static bool isGamePaused = false; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("PlayerController: Rigidbody2D не найден на этом объекте!");
+            enabled = false;
+            return;
+        }
     }
 
     void Update()
     {
-        if (isGamePaused) // Если игра на паузе, не обрабатываем ввод для движения
+        if (isGamePaused)
         {
-            movement = Vector2.zero; // Останавливаем движение
+            movement = Vector2.zero;
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                // PauseMenuManager pauseMenu = FindObjectOfType<PauseMenuManager>();
+                // pauseMenu?.TogglePauseMenu();
+            }
             return;
         }
 
-        // Ввод для движения
-        movement.x = Input.GetAxisRaw("Horizontal"); // A, D, LeftArrow, RightArrow
-        movement.y = Input.GetAxisRaw("Vertical");   // W, S, UpArrow, DownArrow
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
-        // Проверка на Escape для меню паузы (рассмотрим ниже)
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // Логика открытия/закрытия Escape-меню
-            // Например, FindObjectOfType<PauseMenuManager>().TogglePauseMenu();
+            // PauseMenuManager pauseMenu = FindObjectOfType<PauseMenuManager>();
+            // pauseMenu?.TogglePauseMenu();
         }
     }
 
     void FixedUpdate()
     {
-        // Применяем движение в FixedUpdate для физики
-        // Если используешь Rigidbody2D в режиме Dynamic
-        // rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
-
-        // Если используешь Rigidbody2D в режиме Kinematic или двигаешь через Transform
-        if (rb != null && rb.bodyType == RigidbodyType2D.Kinematic)
+        if (isGamePaused || rb == null)
+        {
+            if (rb != null && isGamePaused) rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        
+        if (rb.bodyType == RigidbodyType2D.Kinematic)
         {
             rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
         }
-        else // Если нет Rigidbody или он не Kinematic, двигаем через Transform
+        else 
         {
-            transform.Translate(movement.normalized * moveSpeed * Time.deltaTime);
+            rb.linearVelocity = movement.normalized * moveSpeed;
         }
     }
 }
