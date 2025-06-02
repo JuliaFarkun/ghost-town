@@ -94,7 +94,7 @@ public class DynamicBattleSceneController : MonoBehaviour
         else if (wolfId == "BlackWolf")
         {
             keysForThisBattle = Random.Range(3, 5 + 1);       // 3-5 клавиш
-            timePerKeyForThisBattle = 2.0f;                   // 2 секунды на клавишу
+            timePerKeyForThisBattle = 1.5f;                   // 2 секунды на клавишу
             damageFromThisWolfOnLoss = 30;                    // 30 HP урона
             wolfPrefabIndexToSpawn = BLACK_WOLF_PREFAB_INDEX; // Используем индекс 0
         }
@@ -376,23 +376,38 @@ public class DynamicBattleSceneController : MonoBehaviour
             playerWon = false; // Если нет клавиш, считаем проигрышем
         }
 
+        string outcomeMessage = playerWon ? "Победа!" : "Проигрыш!";
 
-        if (resultText != null) resultText.text = playerWon ? "Победа!" : "Проигрыш!";
+        if (resultText != null) 
+        {
+            resultText.text = outcomeMessage;
+            resultText.color = playerWon ? Color.green : Color.red;
+        }
+
+        // Определяем исход и урон
+        string finalOutcome;
+        int finalDamage;
 
         if (playerWon)
         {
-            BattleDataHolder.BattleOutcome = "Victory"; 
-            BattleDataHolder.DamageToPlayer = 0;
+            finalOutcome = "Victory";
+            finalDamage = 0;
             if (priestAnimator != null) StartCoroutine(PriestVictory());
-            if (currentWolf != null && wolfAnimator != null) StartCoroutine(WolfRunAway());
+            if (currentWolf != null && wolfAnimator != null) StartCoroutine(WolfRunAway()); 
         }
         else
         {
-            BattleDataHolder.BattleOutcome = "Defeat"; 
-            BattleDataHolder.DamageToPlayer = damageFromThisWolfOnLoss;
+            finalOutcome = "Defeat"; 
+            if (timerText != null && timerText.text == "TIME'S UP!")
+            {
+                finalOutcome = "DefeatTimeOut"; 
+            }
+            finalDamage = damageFromThisWolfOnLoss;
             if (priestAnimator != null) StartCoroutine(PriestHurt());
-            if (currentWolf != null && wolfAnimator != null) StartCoroutine(WolfRunAwayLeft()); 
+            if (currentWolf != null && wolfAnimator != null) StartCoroutine(WolfRunAway()); 
         }
+        
+        BattleDataHolder.SetBattleOutcome(finalOutcome, finalDamage);
         
         StartCoroutine(ReturnToGameSceneAfterDelay(3.0f));
     }
@@ -453,28 +468,37 @@ public class DynamicBattleSceneController : MonoBehaviour
         currentWolfAttack = null;
     }
 
-    IEnumerator WolfRunAwayLeft() 
-    {
-        if(wolfAnimator == null || currentWolf == null) yield break;
-        wolfAnimator.Play("walk", 0, 0f); 
-        float startX = currentWolf.transform.position.x; 
-        float endX = startX - 10f; 
-        float runSpeed = 4f; 
-        while (currentWolf != null && currentWolf.transform.position.x > endX) {
-            currentWolf.transform.position += Vector3.left * runSpeed * Time.deltaTime;
-            yield return null;
-        }
-        if(currentWolf != null) Destroy(currentWolf);
-    }
-
     IEnumerator WolfRunAway() 
     {
         if(wolfAnimator == null || currentWolf == null) yield break;
-        wolfAnimator.Play("walk", 0, 0f);
-        float startX = currentWolf.transform.position.x; 
-        float endX = startX + 10f; 
+
+        // Вызываем анимацию "walk 1", которая, судя по скриншотам, соответствует бегу вправо
+        wolfAnimator.Play("walk 1", 0, 0f); 
+        yield return null; // Даем кадр на применение анимации
+
+        // После вызова правильной анимации, установка flipX/scale из скрипта может быть уже не нужна,
+        // так как анимация сама должна установить правильный Scale.x.
+        // Оставим на всякий случай, если есть другие состояния или для подстраховки.
+        SpriteRenderer wolfSprite = currentWolf.GetComponentInChildren<SpriteRenderer>();
+        if (wolfSprite != null)
+        {
+            // Если анимация "walk 1" всегда ставит Scale.x > 0, то flipX должен быть false для взгляда вправо.
+            // Но так как Scale.x уже положительный из анимации, flipX может не иметь значения или должен быть false.
+            wolfSprite.flipX = false; 
+        }
+        // Альтернативно, если Scale.x из анимации "walk 1" это то, что нам нужно, 
+        // то дополнительная коррекция scale здесь не нужна.
+        // else if (currentWolf.transform.localScale.x < 0) 
+        // {
+        //    currentWolf.transform.localScale = new Vector3(Mathf.Abs(currentWolf.transform.localScale.x), currentWolf.transform.localScale.y, currentWolf.transform.localScale.z);
+        // }
+
+        float endX = currentWolf.transform.position.x + 10f;
         float runSpeed = 4f;
-        while (currentWolf != null && currentWolf.transform.position.x < endX) {
+        while (currentWolf != null && currentWolf.transform.position.x < endX)
+        {
+            // Если анимация "walk 1" стабильно держит волка повернутым вправо,
+            // повторная установка flipX/scale здесь не нужна.
             currentWolf.transform.position += Vector3.right * runSpeed * Time.deltaTime;
             yield return null;
         }

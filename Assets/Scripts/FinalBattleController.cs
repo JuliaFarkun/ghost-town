@@ -18,8 +18,8 @@ public class FinalBattleController : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField] private float gameDuration = 30f; 
     [SerializeField] private float spawnInterval = 2f;  
-    // [SerializeField] private int uiFontSize = 24; // Закомментировано, размеры и шрифт настраиваются в редакторе
-    [SerializeField] private float uiSafeZonePadding = 50f; // Отступы для UI текста от краев (влияет на позиционирование кнопок)
+    // [SerializeField] private int uiFontSize = 24; // Размер шрифта настраивается в редакторе
+    [SerializeField] private float uiSafeZonePadding = 50f; // Отступы для позиционирования кнопок
     [SerializeField] private float buttonLifetime = 3.0f; 
 
     [Header("Scene Transitions")]
@@ -45,9 +45,9 @@ public class FinalBattleController : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
-        // PlayerController.isGamePaused = false; // Если финальный бой не должен влиять на этот флаг
+        // PlayerController.isGamePaused = false; // Если нужно управлять глобальным флагом паузы
 
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = GameObject.FindAnyObjectByType<Canvas>();
         if (canvas != null) canvasRect = canvas.GetComponent<RectTransform>();
         else {
             Debug.LogError("FinalBattleController: Canvas не найден на сцене!");
@@ -70,19 +70,15 @@ public class FinalBattleController : MonoBehaviour
 
     void SetupTextProperties() 
     {
-        // Мы больше не меняем RectTransform (anchors, pivot, anchoredPosition, fontSize) из кода.
-        // Настраивайте это в редакторе Unity для каждого TextMeshPro элемента.
+        // Размеры, положение и шрифт текстовых полей настраиваются в редакторе Unity.
         // Скрипт только управляет видимостью и содержимым текста.
-
         if (countdownText != null) {
             countdownText.text = ""; 
             countdownText.gameObject.SetActive(false); 
         }
-
         if (timerText != null) {
             timerText.gameObject.SetActive(false);
         }
-
         if (scoreText != null) {
             scoreText.gameObject.SetActive(false); 
         }
@@ -94,11 +90,11 @@ public class FinalBattleController : MonoBehaviour
         isGameRunning = false;
         correctPressedButtons = 0;
 
-        if (spawnInterval > 0.001f) { // Избегаем деления на ноль или слишком малый интервал
+        if (spawnInterval > 0.001f) {
             totalButtonsExpected = Mathf.FloorToInt(gameDuration / spawnInterval);
         } else {
-            totalButtonsExpected = (gameDuration > 0) ? 1 : 0; // Если интервал 0, но есть время, спауним 1 кнопку
-            Debug.LogWarning("FinalBattleController: SpawnInterval очень мал или равен нулю. Ожидается 0 или 1 кнопка.");
+            totalButtonsExpected = (gameDuration > 0) ? 1 : 0;
+            Debug.LogWarning("FinalBattleController: SpawnInterval очень мал или равен нулю.");
         }
         Debug.Log($"[FinalBattle] Ожидаемое количество кнопок для этого боя: {totalButtonsExpected}");
 
@@ -129,14 +125,14 @@ public class FinalBattleController : MonoBehaviour
     IEnumerator CountdownPhase() 
     {
         if (countdownText == null) {
-            Debug.LogWarning("CountdownText не назначен, пропускаем фазу отсчета.");
+             Debug.LogWarning("CountdownText не назначен, пропускаем фазу отсчета.");
              yield break;
         }
         countdownText.gameObject.SetActive(true);
         countdownText.color = Color.white; 
         for (int i = 3; i > 0; i--) {
             countdownText.text = i.ToString();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f); // Используем обычный WaitForSeconds, т.к. Time.timeScale = 1
             if (!isActiveAndEnabled) yield break;
         }
         countdownText.text = "START!";
@@ -149,7 +145,7 @@ public class FinalBattleController : MonoBehaviour
     {
         isGameRunning = true;
         if (timerText != null) timerText.color = Color.white;
-        if (isActiveAndEnabled && totalButtonsExpected > 0) { // Запускаем спаун только если ожидаются кнопки 
+        if (isActiveAndEnabled && totalButtonsExpected > 0) { 
             spawnCoroutine = StartCoroutine(SpawnButtonsRoutine());
         } else if (totalButtonsExpected <= 0) {
             Debug.LogWarning("MainGamePhase: Не ожидается спауна кнопок (totalButtonsExpected <= 0).");
@@ -179,8 +175,7 @@ public class FinalBattleController : MonoBehaviour
     {
         if (buttonPrefab == null || buttonsParent == null || canvasRect == null) return;
         GameObject newButtonGO = Instantiate(buttonPrefab, buttonsParent);
-        // totalButtonsSpawned больше не используется для инкремента здесь, он был для отладки
-        UpdateScoreDisplay(); // Обновляем, чтобы показать актуальное totalButtonsExpected
+        UpdateScoreDisplay(); 
         RectTransform rt = newButtonGO.GetComponent<RectTransform>();
         rt.anchoredPosition = GetRandomPositionInRect(canvasRect, rt.sizeDelta); 
         Image img = newButtonGO.GetComponent<Image>();
@@ -201,8 +196,6 @@ public class FinalBattleController : MonoBehaviour
                 ActiveButtonInfo info = activeButtons[buttonIndex];
                 info.isProcessed = true; 
                 activeButtons[buttonIndex] = info;
-                // Пропущенные кнопки не увеличивают wrongCount, но влияют на процент правильных
-                UpdateScoreDisplay(); // Обновить отображение, если нужно показывать "пропущенные"
             }
             Destroy(buttonToDestroy);
         }
@@ -210,7 +203,6 @@ public class FinalBattleController : MonoBehaviour
 
     Vector2 GetRandomPositionInRect(RectTransform parentRectForBounds, Vector2 itemSize)
     {
-        // Используем parentRectForBounds для определения границ
         float xMin = parentRectForBounds.rect.xMin + itemSize.x / 2f + uiSafeZonePadding;
         float xMax = parentRectForBounds.rect.xMax - itemSize.x / 2f - uiSafeZonePadding;
         float yMin = parentRectForBounds.rect.yMin + itemSize.y / 2f + uiSafeZonePadding;
@@ -260,18 +252,18 @@ public class FinalBattleController : MonoBehaviour
 
         if(countdownText == null) {
             Debug.LogError("CountdownText не назначен, не могу показать результат! Переход на Game Over...");
-            yield return new WaitForSecondsRealtime(delayBeforeEndSceneTransition); // Все равно ждем, если есть задержка
+            yield return new WaitForSecondsRealtime(delayBeforeEndSceneTransition); // Используем Realtime, т.к. Time.timeScale может быть 0
             GoToGameOverScene();
             yield break;
         }
         countdownText.gameObject.SetActive(true);
         
         bool playerWon = false;
-        if (totalButtonsExpected > 0) { // Условие победы только если ожидались кнопки
+        if (totalButtonsExpected > 0) { 
             playerWon = correctPressedButtons > totalButtonsExpected / 2.0f;
             Debug.Log($"[FinalBattle] Результат: Правильно {correctPressedButtons} из {totalButtonsExpected} ожидаемых. Победа: {playerWon}");
         } else {
-            Debug.LogWarning("[FinalBattle] totalButtonsExpected равен 0. Результат не может быть корректно определен как победа, считаем проигрышем.");
+            Debug.LogWarning("[FinalBattle] totalButtonsExpected равен 0. Считаем проигрышем по умолчанию.");
             playerWon = false; 
         }
 
@@ -283,21 +275,24 @@ public class FinalBattleController : MonoBehaviour
             countdownText.color = Color.red;
         }
 
+        // Используем WaitForSecondsRealtime, так как Time.timeScale может быть изменен перед переходом
         yield return new WaitForSecondsRealtime(delayBeforeEndSceneTransition); 
         GoToGameOverScene();
     }
 
-    void GoToGameOverScene()
+    void GoToGameOverScene() 
     {
         if (!string.IsNullOrEmpty(gameOverSceneName)) {
-            Debug.Log($"[FinalBattle] Завершение. Загрузка сцены: {gameOverSceneName}");
-            // Сбрасываем игровые данные перед уходом на Game Over
-            PlayerStats.InitializeForNewGame(); // Готовит PlayerStats к новой игре (сброс флага hasAnySavedData)
-            BattleDataHolder.ResetSessionData();  // Сбрасывает данные о боях/позициях
+            Debug.Log($"[FinalBattle] Завершение финального боя. Загрузка сцены: {gameOverSceneName}. Удаление файла сохранения.");
+            
+            SaveLoadManager.DeleteSaveFile(); // УДАЛЯЕМ файл сохранения
+            BattleDataHolder.ResetSessionData();  // Сбрасываем временные данные боя
+
+            // PlayerStats.PrepareForNewGameSession(); // Этот вызов больше не нужен, так как PlayerStats не хранит статику сессии
 
             SceneManager.LoadScene(gameOverSceneName);
         } else {
-            Debug.LogError("Имя сцены Game Over (gameOverSceneName) не указано в Inspector!");
+            Debug.LogError("Имя сцены Game Over (gameOverSceneName) не указано в Inspector для FinalBattleController!");
         }
     }
 

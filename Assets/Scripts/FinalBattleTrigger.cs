@@ -1,42 +1,48 @@
 // FinalBattleTrigger.cs
 using UnityEngine;
-using UnityEngine.SceneManagement; // Для SceneManager
+using UnityEngine.SceneManagement;
 
 public class FinalBattleTrigger : MonoBehaviour
 {
     [Header("Настройки")]
-    public string finalBattleSceneName = "FinalBattleScene"; // ТОЧНОЕ имя файла твоей сцены финального боя
-    public string playerTag = "Player"; // Тег объекта игрока
+    public string finalBattleSceneName = "FinalBattleScene"; 
+    public string playerTag = "Player"; 
 
-    private bool battleTriggered = false; // Чтобы сцена не загружалась многократно
-
-    // Убедись, что у этого GameObject'а есть Collider2D с включенным "Is Trigger",
-    // а у игрока есть Rigidbody2D и Collider2D (не триггер).
+    private bool battleTriggered = false; 
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (battleTriggered) return; // Если уже сработало, ничего не делаем
+        if (battleTriggered) return; 
 
         if (other.CompareTag(playerTag))
         {
             Debug.Log($"Player entered the Final Battle Trigger! Loading scene: {finalBattleSceneName}");
-            battleTriggered = true; // Помечаем, что сработало
+            battleTriggered = true; 
+            
+            // СОХРАНЯЕМ ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ ПЕРЕД ФИНАЛЬНЫМ БОЕМ
+            if (GameSceneManager.Instance != null)
+            {
+                GameSceneManager.Instance.SaveCurrentGameState();
+                Debug.Log("[FinalBattleTrigger] Текущее состояние игры сохранено через GameSceneManager.");
+            }
+            else
+            {
+                Debug.LogError("[FinalBattleTrigger] GameSceneManager.Instance не найден! Не могу сохранить игру.");
+            }
 
-            // Перед загрузкой сцены финального боя, ты можешь захотеть:
-            // 1. Сохранить текущее состояние игры (если у тебя есть система сохранений).
-            // 2. Приостановить игрока (хотя при загрузке новой сцены он и так "остановится").
-            // PlayerController.isGamePaused = true; // Если нужно
+            // Данные для BattleDataHolder (если финальному бою нужны какие-то особые идентификаторы)
+            // BattleDataHolder.CurrentWolfIdentifier = "FINAL_BOSS"; // Пример
+            // BattleDataHolder.ActiveWolfGameObjectName = "FinalBossObjectOnMap"; // Если он есть на карте
+            // Но чаще всего финальный бой - это уникальная сцена, и BattleDataHolder может не использоваться
+            // для передачи типа врага, а только для возврата результата.
+            // Или можно не использовать BattleDataHolder для финального боя вообще, если он не возвращает урон/исход.
+            // Для простоты, пока не будем ничего передавать через BattleDataHolder для финального боя,
+            // если только его скрипт не ожидает этого.
 
-            // 3. Возможно, передать какие-то данные в сцену финального боя через BattleDataHolder или другой механизм,
-            //    например, текущее здоровье игрока, если оно не сохраняется персистентно через PlayerStats.
-            //    Если PlayerStats с его статическим persistentCurrentHealth работает, то это может быть не нужно.
-
-            // Загружаем сцену финального боя
+            PlayerController.isGamePaused = true; 
             SceneManager.LoadScene(finalBattleSceneName);
         }
     }
-
-    // Опционально: для визуализации триггера в редакторе
     void OnDrawGizmos()
     {
         Collider2D col = GetComponent<Collider2D>();

@@ -4,109 +4,84 @@ using System;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int maxHealth = 100;
-    private int _currentHealth;
-
-    // Статические поля для сохранения состояния между игровыми сессиями (пока игра запущена)
-    private static bool gameWasStartedOrContinued = false; // Флаг, что была нажата "Новая игра" или "Продолжить"
-    private static int persistentPlayerHealth; 
+    public int maxHealth = 100; // Это значение будет инициализировано из PlayerData
+    private int _currentHealthInternal;
 
     public int CurrentHealth
     {
-        get { return _currentHealth; }
-        set
+        get { return _currentHealthInternal; }
+        private set 
         {
-            _currentHealth = Mathf.Clamp(value, 0, maxHealth);
-            // Обновляем "сохраненное" значение, когда здоровье активно меняется в игре
-            if (gameWasStartedOrContinued) // Только если игра действительно идет
-            {
-                persistentPlayerHealth = _currentHealth;
-            }
-            OnHealthChanged?.Invoke(_currentHealth, maxHealth);
+            _currentHealthInternal = Mathf.Clamp(value, 0, maxHealth);
+            OnHealthChanged?.Invoke(_currentHealthInternal, maxHealth);
+            // Debug.Log($"[PlayerStats] CurrentHealth установлен в: {_currentHealthInternal}");
         }
     }
 
     public static event Action<int, int> OnHealthChanged;
 
-    // Вызывается из MainMenuController при нажатии "Новая игра"
-    public static void InitializeForNewGame()
+    // Вызывается из GameSceneManager для применения загруженных/новых данных
+    public void ApplySaveData(PlayerData data, Vector3 defaultPlayerSpawnPos)
     {
-        persistentPlayerHealth = 0; // Будет установлено в maxHealth в Awake
-        gameWasStartedOrContinued = true; // Помечаем, что можно "продолжить" эту сессию
-                                           // но Awake установит здоровье на максимум.
-        PlayerController.isGamePaused = false;
-        Time.timeScale = 1f;
-        Debug.Log("[PlayerStats] Статистика подготовлена для НОВОЙ ИГРЫ.");
-    }
-
-    // Вызывается из MainMenuController при нажатии "Продолжить"
-    public static void PrepareToContinueGame()
-    {
-        gameWasStartedOrContinued = true; // Помечаем, что можно "продолжить"
-        PlayerController.isGamePaused = false;
-        Time.timeScale = 1f;
-        Debug.Log("[PlayerStats] Подготовка к ПРОДОЛЖЕНИЮ ИГРЫ.");
+        Debug.Log($"[PlayerStats.ApplySaveData] Вызван. Has PlayerData: {data != null}, HasSavedPlayerState: {data?.hasSavedPlayerState}");
+        if (data != null && data.hasSavedPlayerState)
+        {
+            this.maxHealth = data.maxPlayerHealth;
+            this.CurrentHealth = data.currentPlayerHealth; // Используем сеттер для обновления UI
+            Vector3 newPos = data.GetPlayerPosition();
+            transform.position = newPos; // Восстанавливаем позицию
+            Debug.Log($"[PlayerStats] Статы игрока ПРИМЕНЕНЫ из PlayerData: HP {CurrentHealth}/{maxHealth}, Pos: {transform.position} (пришло: {newPos})");
+        }
+        else
+        {
+            Debug.Log($"[PlayerStats.ApplySaveData] Используются дефолтные статы. Default spawn: {defaultPlayerSpawnPos}");
+            // Это новая игра или файл сохранения поврежден/отсутствует
+            this.maxHealth = 100; // Дефолтное значение, если не загружено
+            this.CurrentHealth = this.maxHealth;
+            transform.position = defaultPlayerSpawnPos; // Устанавливаем на дефолтную позицию
+            Debug.Log($"[PlayerStats] Применены ДЕФОЛТНЫЕ статы (новая игра): HP {CurrentHealth}/{maxHealth}, Pos: {transform.position}");
+        }
     }
     
-    // Для MainMenuController, чтобы знать, активна ли кнопка "Продолжить"
-    // "Продолжить" можно, если игра была хоть раз начата и здоровье не на нуле (если Game Over не сбрасывает persistentPlayerHealth)
-    public static bool CanContinue()
+    // Вызывается из GameSceneManager для сбора данных перед сохранением
+    public void PopulateSaveData(PlayerData data)
     {
-        // Можно продолжить, если игра была начата и сохраненное здоровье больше 0.
-        // Если мы хотим, чтобы после Game Over "Продолжить" было неактивно,
-        // то при Game Over нужно будет gameWasStartedOrContinued = false; или persistentPlayerHealth = 0;
-        // Пока оставим так: если игра была начата, можно пробовать продолжить.
-        return gameWasStartedOrContinued; 
+        if (data == null) return;
+
+        data.currentPlayerHealth = this.CurrentHealth;
+        data.maxPlayerHealth = this.maxHealth;
+        data.SetPlayerPosition(transform.position);
+        data.hasSavedPlayerState = true;
     }
 
+    // Awake теперь может быть пустым, так как GameSceneManager управляет инициализацией
     void Awake()
     {
-        Debug.Log($"[PlayerStats Awake] gameWasStartedOrContinued: {gameWasStartedOrContinued}, persistentPlayerHealth до Awake: {persistentPlayerHealth}");
-        if (gameWasStartedOrContinued && persistentPlayerHealth > 0) // Если есть данные для "Продолжить" и здоровье было > 0
-        {
-            _currentHealth = Mathf.Clamp(persistentPlayerHealth, 0, maxHealth); 
-            OnHealthChanged?.Invoke(_currentHealth, maxHealth); 
-            Debug.Log($"[PlayerStats Awake] Здоровье ВОССТАНОВЛЕНО (Продолжить): {_currentHealth}/{maxHealth}");
-        }
-        else // Если это "Новая игра" (gameWasStartedOrContinued=false после сброса или перед первым запуском) или persistentPlayerHealth <=0
-        {
-            CurrentHealth = maxHealth; // Это вызовет сеттер, который установит persistentPlayerHealth и gameWasStartedOrContinued
-            Debug.Log($"[PlayerStats Awake] Установлено НАЧАЛЬНОЕ/НОВОЕ здоровье: {CurrentHealth}/{maxHealth}");
-        }
-         // Если это первый Awake вообще, то gameWasStartedOrContinued будет false, CurrentHealth = maxHealth, 
-         // и сеттер CurrentHealth установит gameWasStartedOrContinued = true и persistentPlayerHealth = maxHealth.
+        Debug.Log("[PlayerStats] Awake. Инициализация здоровья и позиции будет из GameSceneManager.");
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int damage)
     {
-        CurrentHealth -= amount;
-        Debug.Log($"[PlayerStats] Игрок получил {amount} урона. Текущее здоровье: {CurrentHealth}");
+        int previousHealth = CurrentHealth;
+        CurrentHealth -= damage;
+        Debug.Log($"[PlayerStats.TakeDamage] Получен урон: {damage}. Здоровье изменено с {previousHealth} на {CurrentHealth}.");
         if (CurrentHealth <= 0)
         {
-            Die();
+            CurrentHealth = 0;
+            Debug.Log("[PlayerStats.TakeDamage] Здоровье игрока достигло 0 или ниже.");
+            // Логика смерти или Game Over теперь обрабатывается в GameSceneManager.CheckForGameOver()
         }
     }
 
     public void Heal(int amount)
     {
-        CurrentHealth += amount;
+        CurrentHealth += amount; 
         Debug.Log($"[PlayerStats] Игрок вылечился на {amount}. Текущее здоровье: {CurrentHealth}");
     }
 
     void Die()
     {
-        Debug.Log("[PlayerStats] Игрок УМЕР!");
-        // persistentPlayerHealth уже будет 0 из-за сеттера CurrentHealth.
-        // gameWasStartedOrContinued останется true.
-        // GameSceneManager загрузит GameOver.
-        // Если из GameOver выйти в меню и нажать "Продолжить", игра начнется с 0 HP, что приведет снова к GameOver.
-        // Чтобы этого избежать, при загрузке GameOverScene или в MainMenuController.StartNewGame() можно сбрасывать gameWasStartedOrContinued = false.
-        // Но сейчас ResetStatsForNewGame() уже делает это.
+        Debug.Log("[PlayerStats] Игрок УМЕР! (CurrentHealth <= 0)");
+        // GameSceneManager обнаружит это и загрузит GameOver.
     }
-
-    [ContextMenu("Test Take 10 Damage")]
-    void TestDamage() { TakeDamage(10); }
-
-    [ContextMenu("Test Full Heal")]
-    void TestHeal() { Heal(maxHealth); }
 }

@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinalBattle.unity
     guid: baacd27be7c9de54d8dad987829080b5
+  - enabled: 1
+    path: Assets/Scenes/GameOverScene.unity
+    guid: 0554e649da17ef843b973b7ab4556fa4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

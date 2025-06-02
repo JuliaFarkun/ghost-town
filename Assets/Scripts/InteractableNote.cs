@@ -11,7 +11,8 @@ public class InteractableNote : MonoBehaviour
         // Пытаемся найти NoteDisplayUI на сцене, если не присвоено вручную
         if (noteDisplay == null)
         {
-            noteDisplay = FindObjectOfType<NoteDisplayUI>();
+            // noteDisplay = FindObjectOfType<NoteDisplayUI>(); // Устаревший метод
+            noteDisplay = GameObject.FindAnyObjectByType<NoteDisplayUI>();
             if (noteDisplay == null)
             {
                 Debug.LogError("NoteDisplayUI не найден на сцене!");

@@ -17,7 +17,8 @@ public class PauseMenuManager : MonoBehaviour
         if (sceneLoader == null)
         {
             // SceneLoader может быть на отдельном объекте или на этом же
-            sceneLoader = FindObjectOfType<SceneLoader>();
+            // sceneLoader = FindObjectOfType<SceneLoader>(); // Устаревший метод
+            sceneLoader = GameObject.FindAnyObjectByType<SceneLoader>();
             if (sceneLoader == null)
             {
                 // Если SceneLoader'а нет вообще, создадим временный объект с ним

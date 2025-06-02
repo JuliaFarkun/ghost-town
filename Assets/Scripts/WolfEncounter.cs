@@ -50,6 +50,18 @@ public class WolfEncounter : MonoBehaviour
                 BattleDataHolder.GhostGirlWaypointSaved = false;
             }
 
+            // <--- ДОБАВИТЬ СОХРАНЕНИЕ ИГРЫ ЗДЕСЬ
+            if (GameSceneManager.Instance != null)
+            {
+                GameSceneManager.Instance.SaveCurrentGameState();
+                Debug.Log($"[WolfEncounter] Текущее состояние игры сохранено перед боем с {wolfIdentifierForBattle}.");
+            }
+            else
+            {
+                Debug.LogError($"[WolfEncounter] GameSceneManager.Instance не найден! Не могу сохранить игру перед боем с {wolfIdentifierForBattle}.");
+            }
+            // --->
+
             PlayerController.isGamePaused = true; 
             Debug.Log("PlayerController.isGamePaused установлен в true из WolfEncounter");
             
