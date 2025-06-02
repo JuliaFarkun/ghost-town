@@ -125,43 +125,63 @@ public class HeroController : MonoBehaviour
             // lastNonZeroMovement = movementInput; // Если нужно запоминать последнее направление для idle
 
             // Отражение спрайта по X
-            if (movementInput.x > 0.01f)
+                        // Отражение спрайта по X
+            // Проверяем, есть ли заметное горизонтальное движение
+            if (Mathf.Abs(movementInput.x) > 0.01f)
             {
-                spriteRenderer.flipX = false;
+                // Если движемся вправо
+                if (movementInput.x > 0)
+                {
+                    spriteRenderer.flipX = true;
+                }
+                // Если движемся влево
+                else
+                {
+                    spriteRenderer.flipX = false;
+                }
             }
-            else if (movementInput.x < -0.01f)
-            {
-                spriteRenderer.flipX = true;
-            }
+            // Если нет горизонтального движения, оставляем текущее отражение
             // Если movementInput.x близок к нулю, flipX не меняется (персонаж сохраняет направление)
 
-            // Определение основной оси движения для выбора анимации
+                        // Определение основной оси движения для выбора анимации и отражения спрайта
             if (Mathf.Abs(movementInput.y) > Mathf.Abs(movementInput.x))
             {
                 // Вертикальное движение доминирует
                 if (movementInput.y > 0)
                 {
                     animator.Play(WALK_BACK_ANIMATION);
+                    // При вертикальном движении оставляем текущее горизонтальное отражение
                 }
                 else
                 {
-                    animator.Play(WALK_FRONT_ANIMATION);
+                    animator.Play(WALK_FRONT_ANIMATION); // Здесь проигрывается "walkright" при движении вниз
+                    // При вертикальном движении оставляем текущее горизонтальное отражение
                 }
             }
             else
             {
                 // Горизонтальное движение доминирует или равно вертикальному
-                // (или движение только по горизонтали)
-                if (Mathf.Abs(movementInput.x) > 0.01f) // Убедимся, что есть горизонтальное движение
+                if (movementInput.x > 0.01f) // Движение вправо
                 {
-                     animator.Play(WALK_SIDE_ANIMATION);
+                    animator.Play(WALK_FRONT_ANIMATION); // Проигрываем анимацию "walkright"
+                    spriteRenderer.flipX = false; // Убедимся, что спрайт НЕ отзеркален (если walkright смотрит вправо)
                 }
-                else // Если вдруг сюда попали с чисто вертикальным (хотя предыдущий блок должен был это обработать)
+                else if (movementInput.x < -0.01f) // Движение влево
                 {
-                    if (movementInput.y > 0) animator.Play(WALK_BACK_ANIMATION);
-                    else if (movementInput.y < 0) animator.Play(WALK_FRONT_ANIMATION);
-                    else animator.Play(IDLE_ANIMATION); // Совсем нет движения
+                    animator.Play(WALK_SIDE_ANIMATION); // Проигрываем анимацию "walk" (или другую для ходьбы влево)
+                    spriteRenderer.flipX = true; // Отзеркаливаем спрайт, чтобы он смотрел влево
                 }
+                else // Нет горизонтального движения (возможно, только вертикальное, но уже обработано)
+                {
+                     // Если сюда попали с очень маленьким горизонтальным движением, сохраняем текущую анимацию/отражение
+                }
+            }
+
+            // Если нет никакого движения, проигрываем Idle
+            if (movementInput == Vector2.zero)
+            {
+                 animator.Play(IDLE_ANIMATION);
+                 // Оставляем последнее направление для Idle
             }
         }
         else

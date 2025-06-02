@@ -23,43 +23,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55de6085-94cc-4c2d-972f-34b496e58346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DynamicBattleSceneController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DynamicBattleSceneController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ghost-town/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Cozy Cemetery - Characters/Sprites/girl.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Cozy Cemetery - Characters/Sprites/girl.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/attack.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/casting.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/casting.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/die.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/die.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/hurt.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/hurt.anim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/idle.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/idle.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/victory.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/victory.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/walk.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/walk.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/walkback.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/walkback.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/walkright.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Animation/Priest/walkright.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/075e4d72ddd34440ed5807bcd7159940BB2P2HGw1xrJVCDz-0_0.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/075e4d72ddd34440ed5807bcd7159940BB2P2HGw1xrJVCDz-0_0.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/wolfWhite 1.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/wolfWhite 1.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/wolfWhite.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Miniature Army 2D V.1/Prefab/wolfWhite.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/FinalBattle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/FinalBattle.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SettingsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SettingsScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/attack.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/attack.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/battleScene.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ghosgirl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/herowalk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/herowalk.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRP.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRP.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/IMG_0087.JPG.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/IMG_0087.JPG.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-18-50 (1).jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-18-50 (1).jpg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-24-46.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-24-46.jpg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-31-58 (1).jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-31-58 (1).jpg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-37-15.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/photo_2025-06-01_21-37-15.jpg.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Anton SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Anton SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,11 +49,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleDataHolder.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameSceneManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameUIManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/WolfEncounter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@d680fce5716f/Runtime/UniversalAdditionalCameraData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/612EA020-8CC8-47F4-9D53-9E6511ED3CD5/7f/fe789135/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -88,27 +64,16 @@
     </option>
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 5
-}</component>
   <component name="ProjectId" id="2vXEwXQRdpC7JJWZDPwjpkqH0Ht" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;join&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Builds\ghost-town-unity.exe" />
@@ -138,9 +103,8 @@
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
-      <option name="projectPathOnTarget" />
       <option name="selectedOptions">
-        <list />
+        <set />
       </option>
       <method v="2" />
     </configuration>
@@ -148,9 +112,8 @@
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
-      <option name="projectPathOnTarget" />
       <option name="selectedOptions">
-        <list />
+        <set />
       </option>
       <method v="2" />
     </configuration>
@@ -192,6 +155,7 @@
       <workItem from="1748796398282" duration="1883000" />
       <workItem from="1748799241182" duration="13000" />
       <workItem from="1748799975680" duration="13388000" />
+      <workItem from="1748845897907" duration="1192000" />
     </task>
     <servers />
   </component>
@@ -216,6 +180,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
