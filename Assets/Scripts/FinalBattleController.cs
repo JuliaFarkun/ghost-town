@@ -216,8 +216,11 @@ public class FinalBattleController : MonoBehaviour
     }
 
     KeyCode GetRandomKeyCode() {
-        List<KeyCode> keys = new List<KeyCode> { 
-            KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.W, KeyCode.Q, KeyCode.E, KeyCode.Space
+        List<KeyCode> keys = new List<KeyCode> 
+        {
+            KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F, KeyCode.G, KeyCode.H, KeyCode.I, KeyCode.J,
+            KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.N, KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T,
+            KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z
         };
         return keys[Random.Range(0, keys.Count)];
     }

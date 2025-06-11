@@ -102,22 +102,22 @@ public class DynamicBattleSceneController : MonoBehaviour
         // Используем твои данные для настроек
         if (wolfId == "WhiteWolf")
         {
-            keysForThisBattle = Random.Range(15, 26 + 1);       // 15-26 клавиш
-            timePerKeyForThisBattle = 1.5f;                   // 1.5 секунды на клавишу
+            keysForThisBattle = Random.Range(6, 8 + 1);       // 6-8 клавиш
+            timePerKeyForThisBattle = 1.5f;
             damageFromThisWolfOnLoss = 20;                    // 20 HP урона
             wolfPrefabIndexToSpawn = WHITE_WOLF_PREFAB_INDEX; // Используем индекс 1
         }
         else if (wolfId == "BlackWolf")
         {
-            keysForThisBattle = Random.Range(15, 26 + 1);       // 15-26 клавиш
-            timePerKeyForThisBattle = 1.5f;                   // 2 секунды на клавишу
+            keysForThisBattle = Random.Range(3, 5 + 1);       // 3-5 клавиш
+            timePerKeyForThisBattle = 1.5f;
             damageFromThisWolfOnLoss = 30;                    // 30 HP урона
             wolfPrefabIndexToSpawn = BLACK_WOLF_PREFAB_INDEX; // Используем индекс 0
         }
         else 
         {
             Debug.LogWarning($"Неизвестный или дефолтный wolfIdentifier: {wolfId}. Используются параметры для Черного Волка.");
-            keysForThisBattle = Random.Range(15, 26 + 1);       // Параметры как у Черного Волка
+            keysForThisBattle = Random.Range(3, 5 + 1);       // Параметры как у Черного Волка
             timePerKeyForThisBattle = 2.0f;
             damageFromThisWolfOnLoss = 30;
             wolfPrefabIndexToSpawn = BLACK_WOLF_PREFAB_INDEX; // Спауним Черного Волка по умолчанию (индекс 0)
