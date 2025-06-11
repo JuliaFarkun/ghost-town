@@ -29,9 +29,10 @@ public class DynamicBattleSceneController : MonoBehaviour
     public GameObject keyPrefab;
     public Transform keysParent;
     public List<KeyCode> possibleKeys = new List<KeyCode> 
-    { 
-        KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.W,
-        KeyCode.F, KeyCode.J, KeyCode.K, KeyCode.L
+    {
+        KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F, KeyCode.G, KeyCode.H, KeyCode.I, KeyCode.J,
+        KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.N, KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T,
+        KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z
     };
     
     [Header("UI Settings")]
@@ -101,14 +102,14 @@ public class DynamicBattleSceneController : MonoBehaviour
         // Используем твои данные для настроек
         if (wolfId == "WhiteWolf")
         {
-            keysForThisBattle = Random.Range(6, 8 + 1);       // 6-8 клавиш
+            keysForThisBattle = Random.Range(15, 26 + 1);       // 15-26 клавиш
             timePerKeyForThisBattle = 1.5f;                   // 1.5 секунды на клавишу
             damageFromThisWolfOnLoss = 20;                    // 20 HP урона
             wolfPrefabIndexToSpawn = WHITE_WOLF_PREFAB_INDEX; // Используем индекс 1
         }
         else if (wolfId == "BlackWolf")
         {
-            keysForThisBattle = Random.Range(3, 5 + 1);       // 3-5 клавиш
+            keysForThisBattle = Random.Range(15, 26 + 1);       // 15-26 клавиш
             timePerKeyForThisBattle = 1.5f;                   // 2 секунды на клавишу
             damageFromThisWolfOnLoss = 30;                    // 30 HP урона
             wolfPrefabIndexToSpawn = BLACK_WOLF_PREFAB_INDEX; // Используем индекс 0
@@ -116,7 +117,7 @@ public class DynamicBattleSceneController : MonoBehaviour
         else 
         {
             Debug.LogWarning($"Неизвестный или дефолтный wolfIdentifier: {wolfId}. Используются параметры для Черного Волка.");
-            keysForThisBattle = Random.Range(3, 5 + 1);       // Параметры как у Черного Волка
+            keysForThisBattle = Random.Range(15, 26 + 1);       // Параметры как у Черного Волка
             timePerKeyForThisBattle = 2.0f;
             damageFromThisWolfOnLoss = 30;
             wolfPrefabIndexToSpawn = BLACK_WOLF_PREFAB_INDEX; // Спауним Черного Волка по умолчанию (индекс 0)
@@ -293,6 +294,7 @@ public class DynamicBattleSceneController : MonoBehaviour
             if (keyText != null)
             {
                 keyText.text = keysToPress[i].ToString();
+                keyText.color = Color.black;
             }
             keyObjects.Add(keyObj);
         }
@@ -365,8 +367,8 @@ public class DynamicBattleSceneController : MonoBehaviour
             var image = keyObjects[i].GetComponent<Image>();
             if (image != null)
             {
-                image.color = i == currentKeyIndex ? Color.yellow : 
-                             (i < currentKeyIndex ? Color.gray : Color.white);
+                image.color = i == currentKeyIndex ? Color.white : 
+                             (i < currentKeyIndex ? Color.gray : new Color(0.5f, 0.5f, 0.5f, 0.5f));
             }
         }
     }
