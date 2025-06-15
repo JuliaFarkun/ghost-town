@@ -16,7 +16,7 @@ public class FinalBattleController : MonoBehaviour
     [SerializeField] private Transform buttonsParent; // Родительский объект для кнопок на Canvas
 
     [Header("Game Settings")]
-    [SerializeField] private float gameDuration = 30f; 
+    [SerializeField] private float gameDuration = 31f; 
     [SerializeField] private float spawnInterval = 2f;  
     // [SerializeField] private int uiFontSize = 24; // Размер шрифта настраивается в редакторе
     [SerializeField] private float uiSafeZonePadding = 50f; // Отступы для позиционирования кнопок
@@ -24,6 +24,7 @@ public class FinalBattleController : MonoBehaviour
 
     [Header("Scene Transitions")]
     [SerializeField] private string gameOverSceneName = "GameOverScene"; 
+    [SerializeField] private string gameWinSceneName = "GameWinScene"; // Новая сцена для победы
     [SerializeField] private float delayBeforeEndSceneTransition = 5f; 
 
     private float currentTime;
@@ -222,8 +223,8 @@ public class FinalBattleController : MonoBehaviour
             KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.N, KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T,
             KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z,
             // Добавлены новые KeyCodes по запросу пользователя
-            KeyCode.Space, KeyCode.Plus, KeyCode.Minus, KeyCode.Equals, KeyCode.Slash,
-            KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
+            KeyCode.Space, KeyCode.Minus, KeyCode.Equals, KeyCode.Slash,
+            KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
             KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9
         };
         return keys[Random.Range(0, keys.Count)];
@@ -286,14 +287,16 @@ public class FinalBattleController : MonoBehaviour
         if (playerWon) {
             countdownText.text = $"ПОБЕДА!\nПравильно: {correctPressedButtons} из {totalButtonsExpected}";
             countdownText.color = Color.green;
+            Debug.Log("[FinalBattle] Игрок победил! Переход на сцену победы.");
+            yield return new WaitForSecondsRealtime(delayBeforeEndSceneTransition); 
+            GoToGameWinScene(); // Переход на сцену победы
         } else {
             countdownText.text = $"ПРОИГРЫШ!\nПравильно: {correctPressedButtons} из {totalButtonsExpected}";
             countdownText.color = Color.red;
+            Debug.Log("[FinalBattle] Игрок проиграл. Переход на сцену поражения.");
+            yield return new WaitForSecondsRealtime(delayBeforeEndSceneTransition); 
+            GoToGameOverScene(); // Переход на сцену проигрыша
         }
-
-        // Используем WaitForSecondsRealtime, так как Time.timeScale может быть изменен перед переходом
-        yield return new WaitForSecondsRealtime(delayBeforeEndSceneTransition); 
-        GoToGameOverScene();
     }
 
     void GoToGameOverScene() 
@@ -304,11 +307,26 @@ public class FinalBattleController : MonoBehaviour
             SaveLoadManager.DeleteSaveFile(); // УДАЛЯЕМ файл сохранения
             BattleDataHolder.ResetSessionData();  // Сбрасываем временные данные боя
 
-            // PlayerStats.PrepareForNewGameSession(); // Этот вызов больше не нужен, так как PlayerStats не хранит статику сессии
-
             SceneManager.LoadScene(gameOverSceneName);
         } else {
             Debug.LogError("Имя сцены Game Over (gameOverSceneName) не указано в Inspector для FinalBattleController!");
+        }
+    }
+
+    void GoToGameWinScene()
+    {
+        if (!string.IsNullOrEmpty(gameWinSceneName))
+        {
+            Debug.Log($"[FinalBattle] Игрок победил! Загрузка сцены: {gameWinSceneName}. Удаление файла сохранения.");
+            SaveLoadManager.DeleteSaveFile(); // УДАЛЯЕМ файл сохранения
+            BattleDataHolder.ResetSessionData(); // Сбрасываем временные данные боя
+            SceneManager.LoadScene(gameWinSceneName);
+        }
+        else
+        {
+            Debug.LogError("Имя сцены победы (gameWinSceneName) не указано в Inspector для FinalBattleController!");
+            // На случай, если сцена победы не указана, можно перенаправить на Game Over или Main Menu
+            GoToGameOverScene(); 
         }
     }
 
