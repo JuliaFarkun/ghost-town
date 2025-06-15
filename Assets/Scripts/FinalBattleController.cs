@@ -220,13 +220,26 @@ public class FinalBattleController : MonoBehaviour
         {
             KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F, KeyCode.G, KeyCode.H, KeyCode.I, KeyCode.J,
             KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.N, KeyCode.O, KeyCode.P, KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T,
-            KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z
+            KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z,
+            // Добавлены новые KeyCodes по запросу пользователя
+            KeyCode.Space, KeyCode.Plus, KeyCode.Minus, KeyCode.Equals, KeyCode.Slash,
+            KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
+            KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9
         };
         return keys[Random.Range(0, keys.Count)];
     }
 
     string KeyCodeToDisplayString(KeyCode kc) {
         if (kc == KeyCode.Space) return "SPACE";
+        if (kc == KeyCode.Plus) return "+";
+        if (kc == KeyCode.Minus) return "-";
+        if (kc == KeyCode.Equals) return "=";
+        if (kc == KeyCode.Slash) return "/";
+        // Для цифр можно оставить существующий метод ToString(), так как Alpha0-9 дадут "Alpha0" и т.д.
+        // Или добавить явное преобразование, если нужны только цифры "0"-"9"
+        if (kc >= KeyCode.Alpha0 && kc <= KeyCode.Alpha9) {
+            return (kc - KeyCode.Alpha0).ToString();
+        }
         return kc.ToString().ToUpper();
     }
 
