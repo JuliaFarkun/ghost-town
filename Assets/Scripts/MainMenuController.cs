@@ -12,6 +12,7 @@ public class MainMenuController : MonoBehaviour
     public string gameSceneName = "GameScene";       
     public string settingsSceneName = "SettingsScene"; 
     public string mainMenuSceneName = "MainMenu";     
+    public string storySceneName = "StoryScene";
 
     [Header("Начальные Параметры для Новой Игры")]
     public int defaultPlayerMaxHealth = 100;
@@ -55,8 +56,8 @@ public class MainMenuController : MonoBehaviour
         PlayerController.isGamePaused = false;
         Time.timeScale = 1f;
         
-        Debug.Log($"[MainMenuController] Загрузка сцены: {gameSceneName}");
-        SceneManager.LoadScene(gameSceneName);
+        Debug.Log($"[MainMenuController] Загрузка сцены: {storySceneName}");
+        SceneManager.LoadScene(storySceneName);
     }
 
     public void ContinueGame()
