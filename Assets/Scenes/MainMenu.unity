@@ -393,7 +393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1076.7773, y: -589.9295}
+  m_AnchoredPosition: {x: 981.8289, y: -641.6602}
   m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &454424098
@@ -677,7 +677,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1076.7773, y: -809.9295}
+  m_AnchoredPosition: {x: 981.8289, y: -861.6602}
   m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &530830457
@@ -987,7 +987,7 @@ MonoBehaviour:
   mainMenuSceneName: MainMenu
   defaultPlayerMaxHealth: 100
   defaultPlayerStartPosition: {x: 4.05, y: -8.76, z: -1.2}
-  defaultGhostGirlStartPosition: {x: 5.15, y: -8.25, z: 0}
+  defaultGhostGirlStartPosition: {x: 1.5, y: -2.8, z: 0}
   defaultGhostGirlStartWaypoint: 0
 --- !u!1 &877850414
 GameObject:
@@ -1128,7 +1128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1076.7773, y: -699.9295}
+  m_AnchoredPosition: {x: 981.8289, y: -751.6602}
   m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1145167249
@@ -2036,7 +2036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1076.7773, y: -479.9295}
+  m_AnchoredPosition: {x: 981.8289, y: -531.6602}
   m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2041788348

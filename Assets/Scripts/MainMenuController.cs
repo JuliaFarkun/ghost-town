@@ -16,7 +16,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Начальные Параметры для Новой Игры")]
     public int defaultPlayerMaxHealth = 100;
     public Vector3 defaultPlayerStartPosition = new Vector3(4.05f, -8.76f, -1.2f);
-    public Vector3 defaultGhostGirlStartPosition = new Vector3(5.15f, -8.25f, 0f);
+    public Vector3 defaultGhostGirlStartPosition = new Vector3(1.5f, -2.8f, 0f);
     public int defaultGhostGirlStartWaypoint = 0;
 
     void Start()
@@ -36,7 +36,7 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("[MainMenuController] Нажата кнопка 'Новая игра'. Создание/перезапись файла сохранения.");
         Debug.Log($"[MainMenuController] Используемые defaultPlayerStartPosition: {defaultPlayerStartPosition}");
-        Debug.Log($"[MainMenuController] Используемые defaultGhostGirlStartPosition: {defaultGhostGirlStartPosition}");
+        Debug.Log($"[MainMenuController] Используемые defaultGhostGirlStartPosition: {defaultGhostGirlStartPosition} (из скрипта перед созданием PlayerData)");
         
         // Создаем данные для новой игры
         PlayerData newGameData = new PlayerData(
