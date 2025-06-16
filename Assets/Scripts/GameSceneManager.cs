@@ -12,7 +12,7 @@ public class GameSceneManager : MonoBehaviour
 
     [Header("Стартовые Позиции (для случая, если нет файла сохранения)")]
     public Vector3 defaultPlayerSpawnPosition = new Vector3(4.05f, -8.76f, -1.2f);
-    public Vector3 defaultGhostGirlSpawnPosition = new Vector3(5.15f, -8.25f, 0f);
+    public Vector3 defaultGhostGirlSpawnPosition = new Vector3(1.5f, -2.8f, 0f);
     public int defaultGhostGirlStartWaypoint = 0;
     public int defaultPlayerMaxHealth = 100;
 
