@@ -427,12 +427,12 @@ MonoBehaviour:
   buttonPrefab: {fileID: 7877599811813801380, guid: e735036fe03c70a468de22699e1ab3e6, type: 3}
   buttonsParent: {fileID: 0}
   gameDuration: 60
-  spawnInterval: 0.8
+  spawnInterval: 1
   uiSafeZonePadding: 50
-  buttonLifetime: 2.4
+  buttonLifetime: 3
   gameOverSceneName: GameOverScene
   gameWinSceneName: GameWinScene
-  delayBeforeEndSceneTransition: 5
+  delayBeforeEndSceneTransition: 10
   spaceButtonSound: {fileID: 8300000, guid: 7ef770b89dc5c064e98a6a11c1bc6924, type: 3}
 --- !u!4 &628485036
 Transform:
